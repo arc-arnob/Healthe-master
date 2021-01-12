@@ -7,6 +7,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
@@ -18,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
 @Service
@@ -52,5 +54,29 @@ public class JwtProvider {
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e) {
             throw new SpringRedditException("Exception occured while retrieving public key from keystore", e);
         }
+    }
+
+    public boolean validateToken(String jwt) {
+        System.out.println("Here JwtPRovider validating token"); //2
+        Jwts.parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
+        return true;
+    }
+    private PublicKey getPublickey() {
+        System.out.println("Here Inside getPublicKey"); //3
+        try {
+            return keyStore.getCertificate("springjwt").getPublicKey();
+        } catch (KeyStoreException e) {
+            throw new SpringRedditException("Exception occured while " +
+                    "retrieving public key from keystore", e);
+        }
+    }
+    public String getUsernameFromJwt(String token) {
+        System.out.println("Here inside getUsernameFromJwt"); //4
+        Claims claims = Jwts.parser()
+                .setSigningKey(getPublickey())
+                .parseClaimsJws(token)
+                .getBody();
+        System.out.println("Claims.getsub:"+ claims.getSubject()); //jwtProvider is working fine.
+        return claims.getSubject();
     }
 }
