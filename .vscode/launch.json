@@ -28,6 +28,16 @@
             "console": "internalConsole",
             "mainClass": "MavenWrapperDownloader",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServicedisApplication<servicedis>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.servicediscovery.servicedis.ServicedisApplication",
+            "projectName": "servicedis",
+            "args": ""
         }
     ]
 }
