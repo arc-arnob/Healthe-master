@@ -10,11 +10,14 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.time.Instant;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 
 import com.redditb.reddit.exceptions.SpringRedditException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,10 @@ import io.jsonwebtoken.Jwts;
 public class JwtProvider {
 
     private KeyStore keyStore;
+
+    @Value("${jwt.expiration.time}")
+    private Long jwtExpirationInMillis;
+
     @PostConstruct //Read about this annotation
     public void init() {
         try {
@@ -44,7 +51,18 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(principal.getUsername()) // body
                 .signWith(getPrivateKey()) // signed it with our private key
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
                 .compact(); // converted to string
+    }
+
+    // This is used for refresh token in security context goes empty
+    public String generateTokenWithUserName(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(Date.from(Instant.now()))
+                .signWith(getPrivateKey())
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
+                .compact();
     }
 
     // Returning the private Key
@@ -78,5 +96,9 @@ public class JwtProvider {
                 .getBody();
         System.out.println("Claims.getsub:"+ claims.getSubject()); //jwtProvider is working fine.
         return claims.getSubject();
+    }
+
+    public Long getJwtExpirationInMillis() {
+        return jwtExpirationInMillis;
     }
 }

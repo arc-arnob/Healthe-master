@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.redditb.reddit.dto.AuthenticationResponse;
 import com.redditb.reddit.dto.LoginRequest;
+import com.redditb.reddit.dto.RefreshTokenRequest;
 import com.redditb.reddit.dto.RegisterRequest;
 import com.redditb.reddit.exceptions.SpringRedditException;
 import com.redditb.reddit.model.NotificationEmail;
@@ -37,6 +38,8 @@ public class AuthService {
     private MailService mailService;
     @Autowired
     private JwtProvider jwtProvider;
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -103,8 +106,33 @@ public class AuthService {
         System.out.println("#$#%#T$#$T#$Exec AuthSer->login(3)");
         String token = jwtProvider.generateToken(authenticate);
         System.out.println("#$#%#T$#$T#$Exec AuthSer->login(4)");
-        return new AuthenticationResponse(token, loginRequest.getUsername());
+        return AuthenticationResponse.builder().
+                        authenticationToken(token)
+                        .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                        .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                        .username(loginRequest.getUsername())
+                        .build();
         
+    }
+
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest){
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+
+        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
+        
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(refreshTokenRequest.getUsername())
+                .build();
+    }
+
+    public User getCurrentUser() {
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() -> new SpringRedditException("User name not found - " + principal.getUsername()));
     }
 
 

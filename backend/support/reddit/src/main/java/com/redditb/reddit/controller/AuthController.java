@@ -3,10 +3,14 @@ package com.redditb.reddit.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import com.redditb.reddit.dto.AuthenticationResponse;
 import com.redditb.reddit.dto.LoginRequest;
+import com.redditb.reddit.dto.RefreshTokenRequest;
 import com.redditb.reddit.dto.RegisterRequest;
 import com.redditb.reddit.service.AuthService;
+import com.redditb.reddit.service.RefreshTokenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +28,8 @@ public class AuthController {
 
     @Autowired
     private AuthService authservice;
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
     // request comes here /api/auth/signup --1
     @PostMapping(value="/signup") //       RegisterRequest unpacks json to pogo(dto/RegisterRequest) -- 2
@@ -44,6 +50,16 @@ public class AuthController {
         System.out.println("#$#%#T$#$T#$Exec login()"); // working till here
         return authservice.login(loginRequest);
     }
+
+    @PostMapping(value = "/refresh/token")
+    public AuthenticationResponse refreshTokens(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        return authservice.refreshToken(refreshTokenRequest);
+    }
     
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
+        return ResponseEntity.status(HttpStatus.OK).body("Refresh Token Deleted Successfully!!");
+    }
     
 }
