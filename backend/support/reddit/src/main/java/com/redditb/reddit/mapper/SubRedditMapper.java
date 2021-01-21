@@ -5,6 +5,7 @@ import java.util.List;
 import com.redditb.reddit.dto.SubredditDto;
 import com.redditb.reddit.model.Post;
 import com.redditb.reddit.model.Subreddit;
+import com.redditb.reddit.model.User;
 
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -24,5 +25,6 @@ public interface SubRedditMapper {
 
     @InheritInverseConfiguration
     @Mapping(target = "posts", ignore = true)
-    Subreddit mapDtoToSubreddit(SubredditDto subredditDto);
+    @Mapping(target = "user", source = "user")
+    Subreddit mapDtoToSubreddit(SubredditDto subredditDto, User user);
 }

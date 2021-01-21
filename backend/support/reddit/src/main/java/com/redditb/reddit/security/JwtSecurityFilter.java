@@ -39,6 +39,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            System.out.println("Leaving JwtFilter");
         }
         filterChain.doFilter(request, response);
     }

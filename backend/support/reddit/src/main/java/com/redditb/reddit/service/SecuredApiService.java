@@ -33,6 +33,7 @@ public class SecuredApiService {
     private final SubredditRepository subRedditRepository;
     @Autowired
     private SubRedditMapper subRedditMapper;
+    private AuthService authservice;
 
     public String test(){
         return "Test Ran";
@@ -43,7 +44,7 @@ public class SecuredApiService {
     public String save(SubredditDto subreddit) { //8 problem must be here
 
         System.out.println("Here inside securedAPiService save"); // 7 not reaching here
-        Subreddit subReddit = subRedditMapper.mapDtoToSubreddit(subreddit);
+        Subreddit subReddit = subRedditMapper.mapDtoToSubreddit(subreddit, authservice.getCurrentUser());
         subRedditRepository.save(subReddit);
         return "Saved Success";
 

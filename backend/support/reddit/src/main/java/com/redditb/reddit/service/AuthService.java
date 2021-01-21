@@ -59,7 +59,7 @@ public class AuthService {
         mailService.sendMail(new NotificationEmail( // calls MailService(service)
             "Please Activate your account",
             user.getEmail(),
-            "Click below" + "http://localhost:8082/api/auth/accVerification" + token));
+            "Click below" + " http://localhost:8082/api/auth/accVerification/" + token));
         
         
 
@@ -96,16 +96,16 @@ public class AuthService {
     }
 
     public AuthenticationResponse login(LoginRequest loginRequest){
-        System.out.println("#$#%#T$#$T#$Exec AuthSer->login()");// working
+        System.out.println("In login()");// working
         Authentication authenticate = authenticationManager //st1
                                     .authenticate(
                                         new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
-                                        loginRequest.getPassword()));
-        System.out.println("#$#%#T$#$T#$Exec AuthSer->login(2)");
-        SecurityContextHolder.getContext().setAuthentication(authenticate);
-        System.out.println("#$#%#T$#$T#$Exec AuthSer->login(3)");
+                                        loginRequest.getPassword())); // This line is by default using UserRepository
+        System.out.println("setting Security Context");
+        SecurityContextHolder.getContext().setAuthentication(authenticate); // Returns Void
+        System.out.println("generating jwt token");
         String token = jwtProvider.generateToken(authenticate);
-        System.out.println("#$#%#T$#$T#$Exec AuthSer->login(4)");
+        System.out.println("Returning Authentication Response");
         return AuthenticationResponse.builder().
                         authenticationToken(token)
                         .refreshToken(refreshTokenService.generateRefreshToken().getToken())

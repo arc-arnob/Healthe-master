@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
 
-        authenticationManagerBuilder.userDetailsService(userDetailsService)
+        authenticationManagerBuilder.userDetailsService(userDetailsService) // I need to centralize this
             .passwordEncoder(passwordEncoder());
 
     }

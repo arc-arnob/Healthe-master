@@ -38,6 +38,16 @@
             "mainClass": "com.servicediscovery.servicedis.ServicedisApplication",
             "projectName": "servicedis",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SecuredMsApplication<secured-ms>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.testapi.securedms.SecuredMsApplication",
+            "projectName": "secured-ms",
+            "args": ""
         }
     ]
 }
