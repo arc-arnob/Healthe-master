@@ -48,6 +48,16 @@
             "mainClass": "com.testapi.securedms.SecuredMsApplication",
             "projectName": "secured-ms",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-JwtAuthServiceApplication<jwt_auth_service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.jwt_auth_service.jwt_auth_service.JwtAuthServiceApplication",
+            "projectName": "jwt_auth_service",
+            "args": ""
         }
     ]
 }
