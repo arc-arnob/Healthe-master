@@ -12,6 +12,7 @@ import com.jwt_auth_service.jwt_auth_service.dto.RefreshTokenRequest;
 import com.jwt_auth_service.jwt_auth_service.dto.RegisterRequest;
 import com.jwt_auth_service.jwt_auth_service.exception.SpringException;
 import com.jwt_auth_service.jwt_auth_service.model.NotificationEmail;
+import com.jwt_auth_service.jwt_auth_service.model.Role;
 import com.jwt_auth_service.jwt_auth_service.model.User;
 import com.jwt_auth_service.jwt_auth_service.model.VerificationToken;
 import com.jwt_auth_service.jwt_auth_service.security.JwtProvider;
@@ -40,6 +41,7 @@ public class AuthService {
     private JwtProvider jwtProvider;
     @Autowired
     private RefreshTokenService refreshTokenService;
+    private Role role;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -53,6 +55,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreated(Instant.now());
         user.setEnabled(false);
+        user.setRole(registerRequest.getRole());
 
         userRepository.save(user);
         String token = generateVerificationToken(user); // generated token 
