@@ -1,14 +1,8 @@
-package com.appointmentbooking.booking.model;
-
-import java.time.Instant;
-import java.util.Date;
-
+package com.appointmentbooking.booking.AppointmentService.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,15 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class StatusCheck {
+public class AppointmentType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long statusId;
-    
-    private Date date;
-    private Instant time;
+    private Long appTypeId;
 
-    @ManyToOne
-    @JoinColumn(name="docId")
-    private Doctor doctor;
+    private String description;
+    
 }

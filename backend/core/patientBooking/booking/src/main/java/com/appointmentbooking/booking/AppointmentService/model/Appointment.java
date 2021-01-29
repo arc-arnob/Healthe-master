@@ -1,6 +1,7 @@
-package com.appointmentbooking.booking.model;
+package com.appointmentbooking.booking.AppointmentService.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -34,11 +35,11 @@ public class Appointment {
     private String description;
     private Date startDate; 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="patId")
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="docId")
     private Doctor doctor;
 

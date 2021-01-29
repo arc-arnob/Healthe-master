@@ -1,5 +1,4 @@
-package com.appointmentbooking.booking.model;
-
+package com.appointmentbooking.booking.AppointmentService.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,11 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class AppointmentType {
+public class SettlePoint { // This can be used for mongodb nearBy;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long appTypeId;
-
-    private String description;
-    
+    private Long settleId;
+    private String lon;
+    private String lat;
 }

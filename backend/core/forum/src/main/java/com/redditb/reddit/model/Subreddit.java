@@ -27,9 +27,9 @@ public class Subreddit {
     @NotBlank(message = "Description is required")
     private String description;
     @OneToMany(fetch = LAZY)
-    private List<Post> posts;
+    private List<Post> posts; //Other Table
     private Instant createdDate;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private User user;
+    private User user; // Other table... Improve -- Other Database
 }

@@ -24,7 +24,7 @@ public interface SubRedditMapper {
     }
 
     @InheritInverseConfiguration
-    @Mapping(target = "posts", ignore = true)
-    @Mapping(target = "user", source = "user")
+    @Mapping(target = "posts", ignore = true) // Ignore the post field.
+    @Mapping(target = "user", source = "user") // This is for supplying current user.
     Subreddit mapDtoToSubreddit(SubredditDto subredditDto, User user);
 }

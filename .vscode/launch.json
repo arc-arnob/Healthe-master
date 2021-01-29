@@ -58,6 +58,25 @@
             "mainClass": "com.jwt_auth_service.jwt_auth_service.JwtAuthServiceApplication",
             "projectName": "jwt_auth_service",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BookingApplication<booking>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.appointmentbooking.booking.BookingApplication",
+            "projectName": "booking",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BookingApplication",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.appointmentbooking.booking.BookingApplication",
+            "args": ""
         }
     ]
 }

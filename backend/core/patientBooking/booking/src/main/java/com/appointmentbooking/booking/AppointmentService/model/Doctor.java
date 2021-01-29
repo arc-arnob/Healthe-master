@@ -1,4 +1,5 @@
-package com.appointmentbooking.booking.model;
+package com.appointmentbooking.booking.AppointmentService.model;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,28 +8,30 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.GeneratorType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Clinic {
+public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long clinicId;
-
-    private String name;
-    private String SettlePoint;
+    private Long docId;
     private String address;
     private String phone;
-    private String url;
+    private Date dateOfStarting;
+    private String settlePoint; //lon and lat for nearby mongodb
+    private Date dob;
+    private String gender;
     private String description;
-
+    private Long userId; // This has to be get from userRepository
     @ManyToOne
-    @JoinColumn(name="docId")
-    private Doctor doctor;
+    @JoinColumn(name="docSpecId")
+    private DoctorSpeciality doctorSpeciality;
+
 }

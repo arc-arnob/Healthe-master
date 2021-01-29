@@ -1,6 +1,6 @@
-package com.appointmentbooking.booking.repository;
+package com.appointmentbooking.booking.AppointmentService.repository;
 
-import com.appointmentbooking.booking.model.Appointment;
+import com.appointmentbooking.booking.AppointmentService.model.Appointment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
