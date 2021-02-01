@@ -25,9 +25,5 @@ public class Clinic {
     private String address;
     private String phone;
     private String url;
-    private String description;
-
-    @ManyToOne
-    @JoinColumn(name="docId")
-    private Doctor doctor;
+    private String clinic_description;
 }

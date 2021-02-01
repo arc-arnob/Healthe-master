@@ -1,0 +1,10 @@
+{
+    "name":"Sujeet",
+    "pat_phone":"87171691191",
+    "pat_dob":"03-09-1999",
+    "pat_gender":"M",
+    "enrollDate":"09-09-2020",
+    "insured":"Y",
+    "appTypeId":1,
+    "docId":1
+}

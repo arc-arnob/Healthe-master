@@ -18,5 +18,5 @@ public class DoctorSpeciality {
     private Long docSpecId;
 
     private String specName;
-    private String description;
+    private String docSpec_description;
 }

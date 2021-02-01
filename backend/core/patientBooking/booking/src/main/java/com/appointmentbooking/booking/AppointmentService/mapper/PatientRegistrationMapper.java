@@ -4,7 +4,6 @@ import com.appointmentbooking.booking.AppointmentService.dto.PatientRegistration
 import com.appointmentbooking.booking.AppointmentService.model.AppointmentType;
 import com.appointmentbooking.booking.AppointmentService.model.Doctor;
 import com.appointmentbooking.booking.AppointmentService.model.Patient;
-import com.appointmentbooking.booking.UserService.model.User;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,7 +11,11 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PatientRegistrationMapper {
     
-    PatientRegistrationDto mapPatientToDto(Patient patient);
+    @Mapping(target= "docId", source = "doctor")
+    @Mapping(target = "appTypeId", source ="appointmentType")
+    PatientRegistrationDto mapPatientToDto(Patient patient, 
+                                            Long doctor, 
+                                            Long appointmentType);
     
     @Mapping(target = "user", source = "user")
     @Mapping(target = "appointmentType", source = "appointmentType")

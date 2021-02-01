@@ -30,7 +30,7 @@ public class Patient {
     private String user; // This has to be fetched from the auth-server // unknown entity???
                         //... Cannot join tables from 2 diff datasource.
 
-    private String name;
+    private String pat_name;
     private String pat_phone;
     private String pat_dob;
     private String enrollDate;

@@ -22,6 +22,7 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long docId;
+    private String name;
     private String address;
     private String phone;
     private Date dateOfStarting;
@@ -29,9 +30,12 @@ public class Doctor {
     private Date dob;
     private String gender;
     private String description;
-    private Long userId; // This has to be get from userRepository
+    private String userId; // This has to be get from userRepository
     @ManyToOne
     @JoinColumn(name="docSpecId")
     private DoctorSpeciality doctorSpeciality;
+    @ManyToOne
+    @JoinColumn(name="clinicId")
+    private Clinic clinic;
 
 }

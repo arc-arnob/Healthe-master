@@ -3,7 +3,10 @@ package com.appointmentbooking.booking.AppointmentService.controller;
 import com.appointmentbooking.booking.AppointmentService.dto.PatientRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.service.PatientRegistrationService;
 
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +29,15 @@ public class SecuredController {
 
         patientService.save(patientDto);
         return "Saved Man!";
+    }
+
+    @GetMapping(value = "/profile")
+    public ResponseEntity<PatientRegistrationDto> getPatientById(){
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(patientService.getPatientDetailsById());
+
     }
     
     

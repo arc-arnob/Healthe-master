@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PatientRegistrationDto {
     
-    private String name;
+    private String pat_name;
     private String pat_phone;
     private String pat_dob;
     private String enrollDate;

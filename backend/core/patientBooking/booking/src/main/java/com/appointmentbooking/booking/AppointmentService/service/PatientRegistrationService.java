@@ -43,11 +43,21 @@ public class PatientRegistrationService {
         authService.getCurrentUser().getUsername(), doctor, appType);
 
         patientRepository.save(patient);
+    }
         
 
+    public PatientRegistrationDto getPatientDetailsById(){
 
+        String user = authService.getCurrentUser().getUsername();
+        Patient patient = patientRepository.findByUser(user)
+                        .orElseThrow(() -> new UsernameNotFoundException("Patient not registered"));
+        Doctor doctor = doctorRepository.findById(patient.getDoctor().getDocId())
+                                        .orElseThrow(()-> new UsernameNotFoundException("Doctor id do not exists"));
+        
+        AppointmentType appType = appointmentTypeRepository.findById(patient.getAppointmentType().getAppTypeId())
+                                                            .orElseThrow(()-> new UsernameNotFoundException("Appointmen Type Id not found"));
 
-
+        return patientMapper.mapPatientToDto(patient, doctor.getDocId(), appType.getAppTypeId());
     }
     
 
