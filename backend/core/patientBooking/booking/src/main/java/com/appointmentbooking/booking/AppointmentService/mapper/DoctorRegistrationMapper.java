@@ -17,6 +17,9 @@ public interface DoctorRegistrationMapper {
     @Mapping(target = "userId", source = "user")
     @Mapping(target = "doctorSpeciality", source = "docSpec")
     @Mapping(target="clinic", source = "clinic")
+    // @Mapping(target="doc_dob", source="doc_dob")
+    // @Mapping(target="doc_description", source = "doc_description")
+    // @Mapping(target = "settlePoint", source="doc_settlePoint")
     Doctor dtoToDoctor(DoctorRegistrationDto doctorRegistrationDto,
                         String user,
                         DoctorSpeciality docSpec,

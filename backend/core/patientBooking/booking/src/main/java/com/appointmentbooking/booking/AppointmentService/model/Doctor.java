@@ -22,14 +22,14 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long docId;
-    private String name;
-    private String address;
-    private String phone;
+    private String doc_name;
+    private String doc_address;
+    private String doc_phone;
     private Date dateOfStarting;
     private String settlePoint; //lon and lat for nearby mongodb
-    private Date dob;
-    private String gender;
-    private String description;
+    private Date doc_dob;
+    private String doc_gender;
+    private String doc_description;
     private String userId; // This has to be get from userRepository
     @ManyToOne
     @JoinColumn(name="docSpecId")

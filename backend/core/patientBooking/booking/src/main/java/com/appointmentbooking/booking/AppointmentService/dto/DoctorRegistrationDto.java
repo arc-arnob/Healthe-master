@@ -13,16 +13,17 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DoctorRegistrationDto {
     
-    private String doc_name;
-    private String doc_address;
-    private String doc_phone;
-    private Date dateOfStarting;
-    private String doc_settlePoint;
-    private String doc_gender;
-    private String doc_description;
+    private String doc_name; //
+    private String doc_address;//
+    private String doc_phone;//
+    private Date dateOfStarting;//
+    private String doc_settlePoint;//
+    private String doc_gender;//
+    private String doc_description;//
+    private Date doc_dob;
 
-    private Long docSpecId;
-    private Long clinicId;
+    private Long docSpecId;//
+    private Long clinicId;//
     
 
 
