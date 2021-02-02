@@ -1,5 +1,5 @@
 package com.appointmentbooking.booking.AppointmentService.model;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.GeneratorType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +26,7 @@ public class Doctor {
     private String doc_phone;
     private Date dateOfStarting;
     private String settlePoint; //lon and lat for nearby mongodb
-    private Date doc_dob;
+    private Date doc_dob; // FIX REQUIRED
     private String doc_gender;
     private String doc_description;
     private String userId; // This has to be get from userRepository
