@@ -1,9 +1,12 @@
 package com.appointmentbooking.booking.AppointmentService.controller;
 
+import com.appointmentbooking.booking.AppointmentService.dto.AppointmentRegitrationDto;
+import com.appointmentbooking.booking.AppointmentService.dto.DoctorRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.dto.PatientRegistrationDto;
+import com.appointmentbooking.booking.AppointmentService.service.AppointmentService;
+import com.appointmentbooking.booking.AppointmentService.service.DoctorRegistrationService;
 import com.appointmentbooking.booking.AppointmentService.service.PatientRegistrationService;
 
-import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +18,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/patient")
+@RequestMapping("/secured")
 public class SecuredController {
 
     @Autowired
     private PatientRegistrationService patientService;
+    @Autowired
+    private DoctorRegistrationService doctorRegistration;
+    @Autowired
+    private AppointmentService appService;
 
 
-    @PostMapping(value="/register")
+    @PostMapping(value="/patient/register")
     public String savePatient(@RequestBody PatientRegistrationDto patientDto) {
         
         System.out.println("Here inside /patient/register");
@@ -31,7 +38,7 @@ public class SecuredController {
         return "Saved Man!";
     }
 
-    @GetMapping(value = "/profile")
+    @GetMapping(value = "/patient/profile")
     public ResponseEntity<PatientRegistrationDto> getPatientById(){
 
         return ResponseEntity
@@ -39,6 +46,22 @@ public class SecuredController {
                 .body(patientService.getPatientDetailsById());
 
     }
+
+    @PostMapping(value = "/doctor/register")
+    public String registerDoc(@RequestBody DoctorRegistrationDto doctorDto){
+
+        doctorRegistration.save(doctorDto);
+        return "SAVED SUCCESSFULLY";
+
+    }
+
+    @PostMapping(value = "/patient/appointmentbooking")
+    public String appointmentBooking(@RequestBody AppointmentRegitrationDto appointmentRegitrationDto){
+        appService.saveAppointment(appointmentRegitrationDto);
+        return "Appointment Book";
+    }
+
+    
     
     
 

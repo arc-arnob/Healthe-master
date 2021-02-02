@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class SettlePoint { // This can be used for mongodb nearBy;
+public class SettlePoint { // This can be used for mongodb nearBy; // Admin Task
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long settleId;

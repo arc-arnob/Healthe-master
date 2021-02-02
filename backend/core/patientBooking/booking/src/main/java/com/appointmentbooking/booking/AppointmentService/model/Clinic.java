@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Clinic {
+public class Clinic { //Admin Task
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clinicId;

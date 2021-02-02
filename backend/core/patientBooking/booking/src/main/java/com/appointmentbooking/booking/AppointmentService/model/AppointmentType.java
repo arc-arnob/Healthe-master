@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class AppointmentType {
+public class AppointmentType { //Admin task
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appTypeId;

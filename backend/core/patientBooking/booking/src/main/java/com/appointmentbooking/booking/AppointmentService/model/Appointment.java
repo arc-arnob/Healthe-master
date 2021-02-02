@@ -7,7 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,15 +37,31 @@ public class Appointment {
     private Long appId;
 
     private String description;
+
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy", timezone = "IST")
+    @Temporal(TemporalType.DATE)
     private Date startDate; 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="patId")
-    private Patient patient;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss", timezone = "IST")
+    @Temporal(TemporalType.TIME)
+    private Date startTime;
+
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss", timezone = "IST")
+    @Temporal(TemporalType.TIME)
+    private Date endTime; // +30min
+
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name="patId")
+    // private Patient patient;
+    private String pat_username; // this is from userepository
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="docId")
     private Doctor doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="appTypeId")
+    private AppointmentType appType;
 
 
 

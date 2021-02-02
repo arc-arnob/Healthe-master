@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class DoctorSpeciality {
+public class DoctorSpeciality { //Admin Task
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long docSpecId;

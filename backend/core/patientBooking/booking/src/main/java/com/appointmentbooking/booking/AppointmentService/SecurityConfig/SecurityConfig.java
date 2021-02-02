@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       
         http.csrf().disable() // csrf attack occurs when using sessions and cookies
         .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/patient/")// ... by this permitAll()..
+        .antMatchers(HttpMethod.GET, "/secured/")// ... by this permitAll()..
         .permitAll()
         .anyRequest() // ...else all other requests should be authenticated
         .authenticated(); // ... by this code.

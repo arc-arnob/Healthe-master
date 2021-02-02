@@ -26,7 +26,7 @@ public class Doctor {
     private String doc_phone;
     private Date dateOfStarting;
     private String settlePoint; //lon and lat for nearby mongodb
-    private Date doc_dob; // FIX REQUIRED
+    private Date doc_dob; 
     private String doc_gender;
     private String doc_description;
     private String userId; // This has to be get from userRepository
