@@ -88,7 +88,9 @@ public class AuthService {
         fetchUserAndEnable(verificationToken.orElseThrow(() -> new SpringException("Invalid Token")));
 
 	}
-
+    // Put a mechanism for checking iff role is doctor or not...
+    // if role is doctor then enable if only token is verified and ...
+    // doctor is registed
     private void fetchUserAndEnable(VerificationToken verificationToken) {
 
         String username = verificationToken.getUser().getUsername();

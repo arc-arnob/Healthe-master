@@ -1,4 +1,6 @@
 package com.appointmentbooking.booking.AppointmentService.model;
+
+import java.sql.Time;
 import java.time.Instant;
 import java.util.Date;
 
@@ -8,6 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,10 +28,12 @@ public class StatusCheck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long statusId;
     
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy", timezone = "IST")
+    @Temporal(TemporalType.DATE)
     private Date date;
-    private Instant time;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss", timezone = "IST")
+    @Temporal(TemporalType.TIME)
+    private Date time;
 
-    @ManyToOne
-    @JoinColumn(name="docId")
-    private Doctor doctor;
+    private Long docId;
 }

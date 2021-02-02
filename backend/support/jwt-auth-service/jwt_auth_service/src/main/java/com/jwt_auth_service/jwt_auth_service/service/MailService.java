@@ -21,7 +21,7 @@ public class MailService {
     
     private final JavaMailSender mailSender;
     private final MailContentBuilder mailContentBuilder;
-
+    // If role is doctor then send a link to docregistration page and then set enable = 1
     @Async
     void sendMail(NotificationEmail notificationEmail) { // create a mime for java mail sending
         MimeMessagePreparator messagePreparator = mimeMessage -> {
