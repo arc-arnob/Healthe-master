@@ -11,7 +11,13 @@ import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +25,7 @@ import com.jwt_auth_service.jwt_auth_service.exception.SpringException;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
@@ -47,10 +54,17 @@ public class JwtProvider {
     public String generateToken(Authentication authentication){
 
         User principal = (User)authentication.getPrincipal(); // This is purely theory based.
+        System.out.println("Principal role is " + principal.getAuthorities());
+        String authorities = principal.getAuthorities().stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.joining(","));
+        
+      
         return Jwts.builder()
                 .setSubject(principal.getUsername()) // body
+                // .claim("roles", authorities)// Add roles to jwt // not working
                 .signWith(getPrivateKey()) // signed it with our private key
-                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
+                .setExpiration(Date.from(Instant.now().plusSeconds(jwtExpirationInMillis)))
                 .compact(); // converted to string
     }
 
@@ -96,6 +110,7 @@ public class JwtProvider {
         System.out.println("Claims.getsub:"+ claims.getSubject()); //jwtProvider is working fine.
         return claims.getSubject();
     }
+
 
     public Long getJwtExpirationInMillis() {
         return jwtExpirationInMillis;

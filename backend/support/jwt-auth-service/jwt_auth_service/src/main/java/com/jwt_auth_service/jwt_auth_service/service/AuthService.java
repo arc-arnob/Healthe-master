@@ -1,6 +1,7 @@
 package com.jwt_auth_service.jwt_auth_service.service;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,8 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +58,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreated(Instant.now());
         user.setEnabled(false);
-        user.setRole(registerRequest.getRole());
+        user.setRoles(registerRequest.getRole());
 
         userRepository.save(user);
         String token = generateVerificationToken(user); // generated token 
@@ -102,14 +105,27 @@ public class AuthService {
 
     public AuthenticationResponse login(LoginRequest loginRequest){
         System.out.println("In login()");// working
+        //final Collection<? extends GrantedAuthority> authorities = 
         Authentication authenticate = authenticationManager //st1
                                     .authenticate(
                                         new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                                         loginRequest.getPassword())); // This line is by default using UserRepository
         System.out.println("setting Security Context");
+        System.out.println("authenticate princi"+authenticate.getPrincipal());
+        // here we are setting a security context
         SecurityContextHolder.getContext().setAuthentication(authenticate); // Returns Void
+        
+        System.out.println("Sec context in auth server " + SecurityContextHolder.getContext().getAuthentication());
+
+
+        System.out.println("authenticate:" + authenticate);
+        
         System.out.println("generating jwt token");
+        
         String token = jwtProvider.generateToken(authenticate);
+        
+        System.out.println("04-feb- generated token " + token);
+        
         System.out.println("Returning Authentication Response");
         return AuthenticationResponse.builder().
                         authenticationToken(token)

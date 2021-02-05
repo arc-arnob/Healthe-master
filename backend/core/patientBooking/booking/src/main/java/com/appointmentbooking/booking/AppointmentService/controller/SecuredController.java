@@ -10,6 +10,7 @@ import com.appointmentbooking.booking.AppointmentService.service.PatientRegistra
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,17 +29,21 @@ public class SecuredController {
     @Autowired
     private AppointmentService appService;
 
+    @GetMapping("/")
+    public String testing(){
+        return "Yes Working";
+    }
 
-    @PostMapping(value="/patient/register")
+    @PostMapping("/patient/register")
     public String savePatient(@RequestBody PatientRegistrationDto patientDto) {
         
-        System.out.println("Here inside /patient/register");
+        System.out.println("Here inside patient/register");
 
         patientService.save(patientDto);
         return "Saved Man!";
     }
 
-    @GetMapping(value = "/patient/profile")
+    @GetMapping("/patient/profile")
     public ResponseEntity<PatientRegistrationDto> getPatientById(){
 
         return ResponseEntity
@@ -47,7 +52,7 @@ public class SecuredController {
 
     }
 
-    @PostMapping(value = "/doctor/register")
+    @PostMapping("doctor/register")
     public String registerDoc(@RequestBody DoctorRegistrationDto doctorDto){
 
         doctorRegistration.save(doctorDto);
@@ -55,7 +60,7 @@ public class SecuredController {
 
     }
 
-    @PostMapping(value = "/patient/appointmentbooking")
+    @PostMapping("/patient/appointmentbooking")
     public String appointmentBooking(@RequestBody AppointmentRegitrationDto appointmentRegitrationDto){
         appService.saveAppointment(appointmentRegitrationDto);
         return "Appointment Book";

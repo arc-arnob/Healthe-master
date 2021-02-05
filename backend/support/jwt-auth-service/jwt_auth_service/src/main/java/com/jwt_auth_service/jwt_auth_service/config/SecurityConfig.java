@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .anyRequest() // ...else all other requests should be authenticated
         .authenticated(); // ... by this code.
 
+        System.out.println("here inside configure");
+
         http.addFilterBefore(jwtSecurityFilter, //10 creating 1st error
                 UsernamePasswordAuthenticationFilter.class); // This is checked first for checking
                                                         //... if jwt token is already present or not.

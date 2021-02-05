@@ -1,4 +1,4 @@
-package com.appointmentbooking.booking.AppointmentService.SecurityConfig;
+package com.appointmentbooking.booking.AppointmentService.config;
 
 import com.appointmentbooking.booking.AppointmentService.security.JwtSecurityFilter;
 
@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import lombok.AllArgsConstructor;
 
 // This class holdes the complete security configution of our web app backend
+
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,7 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService; //error282
     
 
-    private JwtSecurityFilter jwtSecurityFilter; // error281
+    //private JwtSecurityFilter jwtSecurityFilter; // error281
+    @Bean
+    public JwtSecurityFilter jwtSecurityFilter(){
+       return new JwtSecurityFilter();
+    }
 
     @Bean
     @Override
@@ -43,14 +50,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       
         http.csrf().disable() // csrf attack occurs when using sessions and cookies
         .authorizeRequests()
-        .antMatchers("/home/")
+        .antMatchers("/secured/patient/**")
+         .hasAuthority("PATIENT")
+        .antMatchers("/secured/doctor")
+        .hasAuthority("DOCTOR")
+        .antMatchers("/api/auth/**")
         .permitAll()
-        .antMatchers(HttpMethod.GET, "/secured/patient/").hasRole("patient")// ... by this permitAll()..
-        .antMatchers("/secured/doctor/").hasRole("patient")
-        .anyRequest() // ...else all other requests should be authenticated
-        .authenticated(); // ... by this code.
+        .anyRequest()
+        .authenticated();	
 
-        http.addFilterBefore(jwtSecurityFilter, //10 creating 1st error
+        http.addFilterBefore(jwtSecurityFilter(), //10 creating 1st error
                 UsernamePasswordAuthenticationFilter.class); // This is checked first for checking
                                                         //... if jwt token is already present or not.
     }
@@ -59,6 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
 
+        //Debug
+        System.out.println("Executing booking configure Global");
         authenticationManagerBuilder.userDetailsService(userDetailsService) // I need to centralize this
             .passwordEncoder(passwordEncoder());
 

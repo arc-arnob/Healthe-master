@@ -11,12 +11,17 @@ import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -26,6 +31,9 @@ import io.jsonwebtoken.Jwts;
 
 @Service
 public class JwtProvider {
+
+    @Value("${jwt.authorities.key}")
+    public String AUTHORITIES_KEY;
 
     private KeyStore keyStore;
 
@@ -43,12 +51,12 @@ public class JwtProvider {
         }               //Change This.
     }
 
-    
+    // This is not generating token for this service
     public String generateToken(Authentication authentication){
 
         User principal = (User)authentication.getPrincipal(); // This is purely theory based.
         return Jwts.builder()
-                .setSubject(principal.getUsername()) // body
+                .setSubject(principal.getUsername()) //body
                 .signWith(getPrivateKey()) // signed it with our private key
                 .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
                 .compact(); // converted to string
@@ -64,6 +72,8 @@ public class JwtProvider {
                 .compact();
     }
 
+
+    // Used in jwtPovider of appointment service
     // Returning the private Key
     private PrivateKey getPrivateKey() {
         try {
@@ -72,12 +82,14 @@ public class JwtProvider {
             throw new UsernameNotFoundException("Exception occured while retrieving public key from keystore", e);
         }                   //Change this
     }
-
+    // Used in jwtPovider of appointment service
     public boolean validateToken(String jwt) {
         System.out.println("Here JwtPRovider validating token"); //2
         Jwts.parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
         return true;
     }
+
+    //  Used in jwtPovider of appointment service
     private PublicKey getPublickey() {
         System.out.println("Here Inside getPublicKey"); //3
         try {
@@ -87,14 +99,28 @@ public class JwtProvider {
                     "retrieving public key from keystore", e); //Change This
         }
     }
+
+    // Used in jwtPovider of appointment service
     public String getUsernameFromJwt(String token) {
         System.out.println("Here inside getUsernameFromJwt"); //4
         Claims claims = Jwts.parser()
                 .setSigningKey(getPublickey())
                 .parseClaimsJws(token)
                 .getBody();
-        System.out.println("Claims.getsub:"+ claims.getSubject()); //jwtProvider is working fine.
+        System.out.println("Claims.getsub:"+ claims.getSubject());
+       // System.out.println("Claims.get Roles:"+ claims.get("roles")); //jwtProvider is working fine.
         return claims.getSubject();
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorityFromJwt(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(getPublickey())
+                .parseClaimsJws(token)
+                .getBody();
+        // System.out.println("Latest Error, getAuthJwt");
+        return Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(",")) // will only work if claims with this key passed
+        .map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toList());
     }
 
     public Long getJwtExpirationInMillis() {

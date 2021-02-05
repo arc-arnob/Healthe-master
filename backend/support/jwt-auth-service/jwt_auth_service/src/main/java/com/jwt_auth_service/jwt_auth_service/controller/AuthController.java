@@ -46,7 +46,7 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     public AuthenticationResponse login(@RequestBody LoginRequest loginRequest){
-        System.out.println("#$#%#T$#$T#$Exec login()"); // working till here
+        System.out.println("Executing login() method"); // working till here
         return authservice.login(loginRequest);
     }
 

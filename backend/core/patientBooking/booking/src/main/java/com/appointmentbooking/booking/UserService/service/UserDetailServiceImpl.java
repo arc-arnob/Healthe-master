@@ -32,7 +32,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         return new org.springframework.security
                 .core.userdetails.User(user.getUsername(), user.getPassword(),
                 user.isEnabled(), true, true,
-                true, getAuthorities(user.getRole()));
+                true, getAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {

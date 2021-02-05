@@ -12,7 +12,7 @@ import com.appointmentbooking.booking.AppointmentService.repository.AppointmentT
 import com.appointmentbooking.booking.AppointmentService.repository.DoctorRepository;
 import com.appointmentbooking.booking.AppointmentService.repository.StatusCheckRepository;
 
-import org.checkerframework.checker.units.qual.A;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -40,6 +40,9 @@ public class AppointmentService {
 
     public void saveAppointment(AppointmentRegitrationDto appointmentRegitrationDto){
 
+        // Debug 
+        System.out.println("Ok Now How come im in here? appService");
+
         Doctor doctor = doctorRepository.findById(appointmentRegitrationDto.getDocId())
                         .orElseThrow(() -> new UsernameNotFoundException("Doctor Id do not exists"));
         AppointmentType appType = appTypeRepo.findById(appointmentRegitrationDto.getAppTypeId())
@@ -51,6 +54,8 @@ public class AppointmentService {
                                         doctor,
                                         appType);
 
+        //jwt token do not hold roles;
+
         StatusCheck statusCheck =  new StatusCheck();
         statusCheck.setDocId(appointmentRegitrationDto.getDocId());
         statusCheck.setDate(appointmentRegitrationDto.getStartDate());
@@ -60,6 +65,8 @@ public class AppointmentService {
 
         appointmentRepository.save(appointment);
         statusRepo.save(statusCheck);
+
+        System.out.println("Im even finished executing hahah.. appservice");
 
 
     }
