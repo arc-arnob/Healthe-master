@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/secured")
+// @RequestMapping("")
 public class SecuredController {
 
     @Autowired
