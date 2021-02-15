@@ -77,6 +77,16 @@
             "console": "internalConsole",
             "mainClass": "com.appointmentbooking.booking.BookingApplication",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-CatalogServiceApplication<catalog-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.catalog.catalogservice.CatalogServiceApplication",
+            "projectName": "catalog-service",
+            "args": ""
         }
     ]
 }
