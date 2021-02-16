@@ -28,8 +28,8 @@ public class StatusCheck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long statusId;
     
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy", timezone = "IST")
-    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern="yyyy-MM-dd")
+    //@Temporal(TemporalType.DATE)
     private Date date;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss", timezone = "IST")
     @Temporal(TemporalType.TIME)

@@ -1,5 +1,8 @@
 package com.appointmentbooking.booking.AppointmentService.controller;
 
+import java.sql.Time;
+import java.util.Date;
+
 import com.appointmentbooking.booking.AppointmentService.dto.AppointmentRegitrationDto;
 import com.appointmentbooking.booking.AppointmentService.dto.DoctorRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.dto.PatientRegistrationDto;
@@ -34,7 +37,7 @@ public class SecuredController {
         return "Yes Working";
     }
 
-    @PostMapping("/patient/register")
+    @PostMapping("/patient/register") //added in catalog
     public String savePatient(@RequestBody PatientRegistrationDto patientDto) {
         
         System.out.println("Here inside patient/register");
@@ -43,7 +46,7 @@ public class SecuredController {
         return "Saved Man!";
     }
 
-    @GetMapping("/patient/profile")
+    @GetMapping("/patient/profile") //added in catalog
     public ResponseEntity<PatientRegistrationDto> getPatientById(){
 
         return ResponseEntity
@@ -60,11 +63,17 @@ public class SecuredController {
 
     }
 
-    @PostMapping("/patient/appointmentbooking")
+    @PostMapping("/patient/appointmentbooking") //added in catalog
     public String appointmentBooking(@RequestBody AppointmentRegitrationDto appointmentRegitrationDto){
-        appService.saveAppointment(appointmentRegitrationDto);
-        return "Appointment Book";
+        
+        String res = appService.saveAppointment(appointmentRegitrationDto);
+        return res;
     }
+
+    // Doctor booking status check
+    // Status check while booking appointment
+    // All appointments made by patient
+    // Enable doc id only if registered as doctor
 
     
     
