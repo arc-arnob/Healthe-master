@@ -2,7 +2,6 @@ package com.catalog.catalogservice.catalog.controller;
 
 import java.net.URI;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.HttpEntity;
@@ -10,8 +9,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,6 +74,26 @@ public class CatalogController {
         return result.getBody();
     }
 
+    
+    @PostMapping("/patient-app-booking")
+    public String patientAppointmentBooking(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+
+        String uri = loadBalancer.choose("app-service").getServiceId();
+        String url = "http://"+uri.toString() + "/patient/appointmentbooking";
+
+        ResponseEntity<String> result = restTemplate
+                .postForEntity(url, entity, String.class);
+
+        return result.getBody();
+    }
+
+
+    // DOCTOR CONTROLLERSS
+
 
     @PostMapping("/doctor-register")
     public String registerDoctor(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
@@ -90,26 +111,45 @@ public class CatalogController {
         return result.getBody();
     }
 
+    @PutMapping("/doctor-update")
+    public String updateDoctor(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+
+        String uri = loadBalancer.choose("app-service").getServiceId();
+        String url = "http://"+uri.toString() + "/doctor/update/profile";
+
+        restTemplate
+                .put(url, entity, String.class);
+
+        return "Updated";
+    }
+
+    @DeleteMapping("/doctor-delete")
+    public String deleteDoctor(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+        String uri = loadBalancer.choose("app-service").getServiceId();
+        String url = "http://"+uri.toString() + "/doctor/delete/profile";
+
+        ResponseEntity<String> status = restTemplate.exchange(url,HttpMethod.DELETE, entity, String.class);
+
+        return status.getBody();
+    }
+
+
+
+
     // Appointment Controllers
         // get available date and time for appointment
         // Look at all the appoiments made by a patient-details
         // Doctor can look at his schedule
 
-        @PostMapping("/patient-app-booking")
-        public String patientAppointmentBooking(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("Authorization", token);
-            HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
-    
-            String uri = loadBalancer.choose("app-service").getServiceId();
-            String url = "http://"+uri.toString() + "/patient/appointmentbooking";
-    
-            ResponseEntity<String> result = restTemplate
-                    .postForEntity(url, entity, String.class);
-    
-            return result.getBody();
-        }
     // Forum Controllers
 
     

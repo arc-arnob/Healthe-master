@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PatientRegistrationService {
     
-    @Autowired
+    
     private final PatientRegistrationRepository patientRepository;
 
     

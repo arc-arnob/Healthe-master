@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/patient/**")
          .hasAnyAuthority("PATIENT","DOCTOR")
-        .antMatchers("/doctor")
+        .antMatchers("/doctor/**")
         .hasAuthority("DOCTOR")
         .antMatchers("/api/auth/**")
         .permitAll()

@@ -13,6 +13,9 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -57,6 +60,7 @@ public class Appointment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="docId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.LAZY)
