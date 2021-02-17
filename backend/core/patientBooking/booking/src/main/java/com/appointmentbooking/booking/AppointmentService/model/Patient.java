@@ -37,17 +37,17 @@ public class Patient {
     private String pat_gender;
     private String insured;
     
-    @ManyToOne //This has to be passed after selecting from drop down menu.
-    @JoinColumn(name="docId")
-    private Doctor doctor;
+    // @ManyToOne //This has to be passed after selecting from drop down menu.
+    // @JoinColumn(name="docId")
+    // private Doctor doctor;
     
-    // @ManyToOne
-    // @JoinColumn(name="docSpecId")
-    // private DoctorSpeciality doctorSpeciality;
+    // // @ManyToOne
+    // // @JoinColumn(name="docSpecId")
+    // // private DoctorSpeciality doctorSpeciality;
 
-    @ManyToOne
-    @JoinColumn(name="appTypeId")
-    private AppointmentType appointmentType;
+    // @ManyToOne
+    // @JoinColumn(name="appTypeId")
+    // private AppointmentType appointmentType;
 
     
 }   

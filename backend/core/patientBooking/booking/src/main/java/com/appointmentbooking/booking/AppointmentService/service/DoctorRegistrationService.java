@@ -1,5 +1,7 @@
 package com.appointmentbooking.booking.AppointmentService.service;
 
+import java.util.Optional;
+
 import com.appointmentbooking.booking.AppointmentService.dto.DoctorRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.mapper.DoctorRegistrationMapper;
 import com.appointmentbooking.booking.AppointmentService.model.Clinic;
@@ -30,16 +32,28 @@ public class DoctorRegistrationService {
     private ClinicRepository clinicRepository;
 
 
-    public void save(DoctorRegistrationDto doctorDto){
-        Clinic clinic = clinicRepository.findById(doctorDto.getClinicId())
-                        .orElseThrow(() -> new UsernameNotFoundException("Clinic Id does not exists"));
+    public String save(DoctorRegistrationDto doctorDto){
 
-        DoctorSpeciality docSpec = doctorSpecialityRepository.findById(doctorDto.getDocSpecId())
-                                    .orElseThrow(() -> new UsernameNotFoundException("Doctor Speciality id does not exist"));
+        String user = authService.getCurrentUser().getUsername();
 
-        Doctor doctor = doctorMapper.dtoToDoctor(doctorDto, authService.getCurrentUser().getUsername(), docSpec, clinic);
-        
-        doctorRepository.save(doctor);
+        Optional<Doctor> user_check = doctorRepository.findByUserId(user);
+
+        if(user_check == null){
+
+            Clinic clinic = clinicRepository.findById(doctorDto.getClinicId())
+                            .orElseThrow(() -> new UsernameNotFoundException("Clinic Id does not exists"));
+
+            DoctorSpeciality docSpec = doctorSpecialityRepository.findById(doctorDto.getDocSpecId())
+                                        .orElseThrow(() -> new UsernameNotFoundException("Doctor Speciality id does not exist"));
+
+            Doctor doctor = doctorMapper.dtoToDoctor(doctorDto, authService.getCurrentUser().getUsername(), docSpec, clinic);
+            
+            doctorRepository.save(doctor);
+            return "You are Registered as a Doctor";
+        }
+        else{
+            return "You are already Registered";
+        }
     }
 
 

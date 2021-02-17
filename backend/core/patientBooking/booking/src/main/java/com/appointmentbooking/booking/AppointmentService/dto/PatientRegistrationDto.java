@@ -18,7 +18,7 @@ public class PatientRegistrationDto {
     private String pat_gender;
     private String insured;
 
-    private Long appTypeId;
-    private Long docId;
+    // private Long appTypeId;
+    // private Long docId;
 
 }

@@ -1,5 +1,7 @@
 package com.appointmentbooking.booking.AppointmentService.service;
 
+import java.util.Optional;
+
 import com.appointmentbooking.booking.AppointmentService.dto.PatientRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.mapper.PatientRegistrationMapper;
 import com.appointmentbooking.booking.AppointmentService.model.AppointmentType;
@@ -23,26 +25,31 @@ public class PatientRegistrationService {
     @Autowired
     private final PatientRegistrationRepository patientRepository;
 
-    @Autowired
+    
     private PatientRegistrationMapper patientMapper;
     private AuthService authService;
     private DoctorRepository doctorRepository;
     private AppointmentTypeRepository appointmentTypeRepository;
 
-    public void save(PatientRegistrationDto patientDto){
+    public String save(PatientRegistrationDto patientDto){
         System.out.println("Here Inside Save of PR Service");
 
-        Doctor doctor = doctorRepository.findById(patientDto.getDocId())
-                        .orElseThrow(()-> new UsernameNotFoundException("Doctor Id Does not Exists"));
+        String user = authService.getCurrentUser().getUsername();
+        Optional<Patient> user_check = patientRepository.findByUser(user);
+
+        if(user_check == null){
+
+
+            Patient patient = patientMapper.dtoToPatient(patientDto, 
+            authService.getCurrentUser().getUsername());
+
+            patientRepository.save(patient);
+            return "You are registered";
+        }
+        else{
+            return "You are already Registered";
+        }
         
-        AppointmentType appType = appointmentTypeRepository.findById(patientDto.getAppTypeId())
-                                .orElseThrow(() -> new UsernameNotFoundException("Appointment Type id Does not exists"));
-
-
-        Patient patient = patientMapper.dtoToPatient(patientDto, 
-        authService.getCurrentUser().getUsername(), doctor, appType);
-
-        patientRepository.save(patient);
     }
         
 
@@ -51,13 +58,13 @@ public class PatientRegistrationService {
         String user = authService.getCurrentUser().getUsername();
         Patient patient = patientRepository.findByUser(user)
                         .orElseThrow(() -> new UsernameNotFoundException("Patient not registered"));
-        Doctor doctor = doctorRepository.findById(patient.getDoctor().getDocId())
-                                        .orElseThrow(()-> new UsernameNotFoundException("Doctor id do not exists"));
+        // Doctor doctor = doctorRepository.findById(patient.getDoctor().getDocId())
+        //                                 .orElseThrow(()-> new UsernameNotFoundException("Doctor id do not exists"));
         
-        AppointmentType appType = appointmentTypeRepository.findById(patient.getAppointmentType().getAppTypeId())
-                                                            .orElseThrow(()-> new UsernameNotFoundException("Appointmen Type Id not found"));
+        // AppointmentType appType = appointmentTypeRepository.findById(patient.getAppointmentType().getAppTypeId())
+        //                                                     .orElseThrow(()-> new UsernameNotFoundException("Appointmen Type Id not found"));
 
-        return patientMapper.mapPatientToDto(patient, doctor.getDocId(), appType.getAppTypeId());
+        return patientMapper.mapPatientToDto(patient);
     }
     
 

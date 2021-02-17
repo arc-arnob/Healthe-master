@@ -42,8 +42,8 @@ public class SecuredController {
         
         System.out.println("Here inside patient/register");
 
-        patientService.save(patientDto);
-        return "Saved Man!";
+        String status = patientService.save(patientDto);
+        return status;
     }
 
     @GetMapping("/patient/profile") //added in catalog
@@ -58,8 +58,8 @@ public class SecuredController {
     @PostMapping("doctor/register")
     public String registerDoc(@RequestBody DoctorRegistrationDto doctorDto){
 
-        doctorRegistration.save(doctorDto);
-        return "SAVED SUCCESSFULLY";
+        String status = doctorRegistration.save(doctorDto);
+        return status;
 
     }
 
