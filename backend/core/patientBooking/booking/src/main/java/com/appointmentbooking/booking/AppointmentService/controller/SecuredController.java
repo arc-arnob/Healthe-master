@@ -11,6 +11,7 @@ import com.appointmentbooking.booking.AppointmentService.service.DoctorRegistrat
 import com.appointmentbooking.booking.AppointmentService.service.PatientRegistrationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,11 +52,13 @@ public class SecuredController {
     }
 
     @GetMapping("/patient/profile") //added in catalog
-    public ResponseEntity<PatientRegistrationDto> getPatientById(){
+    @Cacheable(value = "Patient", key = "")
+    public PatientRegistrationDto getPatientById(){
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(patientService.getPatientDetailsById());
+        // return ResponseEntity
+        //         .status(HttpStatus.OK)
+        //         .body(patientService.getPatientDetailsById());
+        return patientService.getPatientDetailsById();
 
     }
 

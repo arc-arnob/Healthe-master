@@ -185,6 +185,7 @@ public class CatalogController {
         return "Cannot complete operation, try again!";
     }
 
+    // one Redis connetion here for each service application
 
     
 }

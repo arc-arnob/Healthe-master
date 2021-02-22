@@ -1,5 +1,7 @@
 package com.appointmentbooking.booking.AppointmentService.dto;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PatientRegistrationDto {
+public class PatientRegistrationDto implements Serializable{
     
     private String pat_name;
     private String pat_phone;
