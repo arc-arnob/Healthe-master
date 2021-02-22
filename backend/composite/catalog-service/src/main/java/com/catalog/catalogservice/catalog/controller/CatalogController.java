@@ -2,6 +2,8 @@ package com.catalog.catalogservice.catalog.controller;
 
 import java.net.URI;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.HttpEntity;
@@ -35,6 +37,7 @@ public class CatalogController {
     // Patient Controllers
 
     @GetMapping("/patient-profile") //<-- product-composite
+    @HystrixCommand(fallbackMethod = "showPPFallback")
     public Object showPatientProfile(@RequestHeader(value = "Authorization") String token){
 
         System.out.println("Here in catalog service 1");
@@ -59,6 +62,7 @@ public class CatalogController {
     }
 
     @PostMapping("/patient-register")
+    @HystrixCommand(fallbackMethod = "registerPatientFB")
     public String registerPatient(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -76,6 +80,7 @@ public class CatalogController {
 
     
     @PostMapping("/patient-app-booking")
+    @HystrixCommand(fallbackMethod = "patientAppointmentBookingFB")
     public String patientAppointmentBooking(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -96,6 +101,7 @@ public class CatalogController {
 
 
     @PostMapping("/doctor-register")
+    @HystrixCommand(fallbackMethod = "registerDoctorFB")
     public String registerDoctor(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -112,6 +118,7 @@ public class CatalogController {
     }
 
     @PutMapping("/doctor-update")
+    @HystrixCommand(fallbackMethod = "updateDoctorFB")
     public String updateDoctor(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -128,6 +135,7 @@ public class CatalogController {
     }
 
     @DeleteMapping("/doctor-delete")
+    @HystrixCommand(fallbackMethod = "deleteDoctorFB")
     public String deleteDoctor(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -151,6 +159,32 @@ public class CatalogController {
         // Doctor can look at his schedule
 
     // Forum Controllers
+
+
+    // Fallback commands
+
+    public Object showPPFallback(@RequestHeader(value = "Authorization") String token){
+        return "Oops the service is down please try later!";
+    }
+
+    public String registerPatientFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "Cannot Register you right now! Try again some time";
+    }
+
+    public String patientAppointmentBookingFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "Oops Cannot book appointment right now Please try again";
+    }
+    public String registerDoctorFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "Cannot Register you , try again later";
+    }
+
+    public String updateDoctorFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "oops cannot update you yet, try again later";
+    }
+    public String deleteDoctorFB(@RequestHeader(value = "Authorization") String token){
+        return "Cannot complete operation, try again!";
+    }
+
 
     
 }
