@@ -24,6 +24,6 @@ public interface StatusCheckRepository extends JpaRepository<StatusCheck, Long> 
     @Query(value = "DELETE FROM statuscheck WHERE docId=?1",nativeQuery = true)
     @Modifying
     @Transactional
-    void deleteBydocId(Long docId);
+    void deleteBydocId(String docId);
 
 }

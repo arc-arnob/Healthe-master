@@ -59,7 +59,7 @@ public class Appointment {
     private String pat_username; // this is from userepository
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="docId")
+    @JoinColumn(name="docId") // what if we give here userId ?
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Doctor doctor;
 

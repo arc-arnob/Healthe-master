@@ -5,6 +5,10 @@ import java.net.URI;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,12 +36,15 @@ public class CatalogController {
     @Autowired
     LoadBalancerClient loadBalancer;
 
+    private CacheManager cacheManager;
+
 
 
     // Patient Controllers
 
     @GetMapping("/patient-profile") //<-- product-composite
     @HystrixCommand(fallbackMethod = "showPPFallback")
+    @Cacheable(value="Patient")
     public Object showPatientProfile(@RequestHeader(value = "Authorization") String token){
 
         System.out.println("Here in catalog service 1");
@@ -76,6 +83,29 @@ public class CatalogController {
                 .postForEntity(url, entity, String.class);
 
         return result.getBody();
+    }
+
+    // Update Patient Profile
+    @PutMapping("/patient-update")
+    @HystrixCommand(fallbackMethod = "patientProfileUpdateFB")
+    @CacheEvict(value = "Patient",allEntries = true) //Not working
+    public Object patientProfileUpdate(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+
+        String uri = loadBalancer.choose("app-service").getServiceId();
+        String url = "http://"+uri.toString() + "/patient/update/profile";
+
+        ResponseEntity<String> result = restTemplate
+        .exchange(url, HttpMethod.PUT, entity, String.class);
+
+        Object patient = result.getBody();
+        return patient; // Do not forget to update the cache! @cachevict
+
+
     }
 
     
@@ -119,6 +149,7 @@ public class CatalogController {
 
     @PutMapping("/doctor-update")
     @HystrixCommand(fallbackMethod = "updateDoctorFB")
+    @CachePut(value="DoctorProfile")
     public String updateDoctor(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -152,7 +183,9 @@ public class CatalogController {
 
 
 
-
+    // todo
+    // update patient profile
+    // get doctor profile
     // Appointment Controllers
         // get available date and time for appointment
         // Look at all the appoiments made by a patient-details
@@ -164,7 +197,8 @@ public class CatalogController {
     // Fallback commands
 
     public Object showPPFallback(@RequestHeader(value = "Authorization") String token){
-        return "Oops the service is down please try later!";
+        
+        return "Sorry Something is wrong, cant get your info!";
     }
 
     public String registerPatientFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
@@ -184,7 +218,9 @@ public class CatalogController {
     public String deleteDoctorFB(@RequestHeader(value = "Authorization") String token){
         return "Cannot complete operation, try again!";
     }
-
+    public Object patientProfileUpdateFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "Something Horribly went wrong";
+    }
     // one Redis connetion here for each service application
 
     

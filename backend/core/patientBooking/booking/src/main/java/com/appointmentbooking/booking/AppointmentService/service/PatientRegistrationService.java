@@ -1,6 +1,7 @@
 package com.appointmentbooking.booking.AppointmentService.service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.appointmentbooking.booking.AppointmentService.dto.PatientRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.mapper.PatientRegistrationMapper;
@@ -37,18 +38,36 @@ public class PatientRegistrationService {
         String user = authService.getCurrentUser().getUsername();
         Optional<Patient> user_check = patientRepository.findByUser(user);
 
-        if(user_check == null){
+        
+        
+
+        if(!user_check.isPresent()){
 
 
             Patient patient = patientMapper.dtoToPatient(patientDto, 
             authService.getCurrentUser().getUsername());
-
+            String patId = UUID.randomUUID().toString();
+            System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(patId);
+            patient.setPatId(patId);
             patientRepository.save(patient);
             return "You are registered";
         }
         else{
             return "You are already Registered";
         }
+        
+    }
+
+    public String updatePatient(PatientRegistrationDto patientDto){
+        String user = authService.getCurrentUser().getUsername();
+        Patient user_check = patientRepository.findByUser(user)
+                                                .orElseThrow(()-> new UsernameNotFoundException("User Does not Exists"));
+        String patId = user_check.getPatId();
+        Patient patient  = patientMapper.dtoToPatient(patientDto, user);
+        patient.setPatId(patId);
+        patientRepository.save(patient);
+        return "You updated your profile!";
         
     }
         

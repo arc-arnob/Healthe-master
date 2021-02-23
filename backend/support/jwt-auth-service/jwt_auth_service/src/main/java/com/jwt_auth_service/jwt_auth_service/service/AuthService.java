@@ -59,6 +59,9 @@ public class AuthService {
         user.setCreated(Instant.now());
         user.setEnabled(false);
         user.setRoles(registerRequest.getRole());
+        String user_id = UUID.randomUUID().toString();
+        System.out.print(user_id);
+        user.setUserId(user_id);
 
         userRepository.save(user);
         String token = generateVerificationToken(user); // generated token 

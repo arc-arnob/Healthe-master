@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PatientRegistrationRepository extends JpaRepository<Patient, Long>{
+public interface PatientRegistrationRepository extends JpaRepository<Patient, String>{
 
 	Optional<Patient> findByUser(String user);
     

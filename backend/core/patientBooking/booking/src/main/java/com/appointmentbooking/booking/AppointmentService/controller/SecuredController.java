@@ -11,6 +11,7 @@ import com.appointmentbooking.booking.AppointmentService.service.DoctorRegistrat
 import com.appointmentbooking.booking.AppointmentService.service.PatientRegistrationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,8 @@ public class SecuredController {
     @Autowired
     private AppointmentService appService;
 
+    private CacheManager cacheManager;
+
     @GetMapping("/")
     public String testing(){
         return "Yes Working";
@@ -49,6 +52,14 @@ public class SecuredController {
 
         String status = patientService.save(patientDto);
         return status;
+    }
+
+    @PutMapping("/patient/update/profile")
+    public String updatePatientProfile(@RequestBody PatientRegistrationDto patientDto){
+        System.out.println("Here inside patient/upate/profile");
+        String status =patientService.updatePatient(patientDto);
+        return status;
+
     }
 
     @GetMapping("/patient/profile") //added in catalog

@@ -22,13 +22,13 @@ import lombok.NoArgsConstructor;
 public class Patient {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long patId;
+    private String user; // This has to be fetched from the auth-server // unknown entity???
+                        //... Cannot join tables from 2 diff datasource.
+    private String patId;
 
     // @ManyToOne
     // @JoinColumn(name="userId")
-    private String user; // This has to be fetched from the auth-server // unknown entity???
-                        //... Cannot join tables from 2 diff datasource.
+    
 
     private String pat_name;
     private String pat_phone;

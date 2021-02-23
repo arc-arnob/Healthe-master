@@ -15,11 +15,11 @@ import org.springframework.stereotype.Repository;
 public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
 
     @Query(value = "SELECT * FROM appointment WHERE docId=?1", nativeQuery = true)
-    List<Appointment> findBydocId(Long docId);
+    List<Appointment> findBydocId(String docId);
     @Query(value = "DELETE FROM appointment WHERE docId=?1",nativeQuery = true)
     @Modifying
     @Transactional
-    void deleteBydocId(Long docId);
+    void deleteBydocId(String docId);
 
     
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DoctorRegistrationDto {
-    
+   
     private String doc_name; //
     private String doc_address;//
     private String doc_phone;//

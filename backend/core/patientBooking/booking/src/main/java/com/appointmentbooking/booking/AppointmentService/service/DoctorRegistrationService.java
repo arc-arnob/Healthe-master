@@ -2,6 +2,7 @@ package com.appointmentbooking.booking.AppointmentService.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.appointmentbooking.booking.AppointmentService.dto.DoctorRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.mapper.DoctorRegistrationMapper;
@@ -53,7 +54,10 @@ public class DoctorRegistrationService {
                                         .orElseThrow(() -> new UsernameNotFoundException("Doctor Speciality id does not exist"));
 
             Doctor doctor = doctorMapper.dtoToDoctor(doctorDto, authService.getCurrentUser().getUsername(), docSpec, clinic);
-            
+            String docId = UUID.randomUUID().toString();
+            System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(docId);
+            doctor.setDocId(docId);
             doctorRepository.save(doctor);
             return "You are Registered as a Doctor";
         }
@@ -68,7 +72,8 @@ public class DoctorRegistrationService {
 
         Doctor user = doctorRepository.findByUserId(authService.getCurrentUser().getUsername())
                                         .orElseThrow(()-> new UsernameNotFoundException("Does not Exist"));
-        
+        String id = user.getDocId();
+
         Clinic clinic = clinicRepository.findById(doctorDto.getClinicId())
                             .orElseThrow(() -> new UsernameNotFoundException("Clinic Id does not exists"));
 
@@ -76,9 +81,9 @@ public class DoctorRegistrationService {
                                     .orElseThrow(() -> new UsernameNotFoundException("Doctor Speciality id does not exist"));
 
         Doctor doctor = doctorMapper.dtoToDoctor(doctorDto, authService.getCurrentUser().getUsername(), docSpec, clinic);
-            
+        doctor.setDocId(id);
         doctorRepository.save(doctor);
-        return "You are Registered as a Doctor";
+        return "You Updated Your Profile as a doctor";
 
     }
 
@@ -86,7 +91,7 @@ public class DoctorRegistrationService {
         Doctor user = doctorRepository.findByUserId(authService.getCurrentUser().getUsername())
                                         .orElseThrow(()->new UsernameNotFoundException("User name not found"));
         
-        Long docId = user.getDocId();
+        String docId = user.getDocId();
 
         List<Appointment> appointment = appointmentRepository.findBydocId(docId);
 
