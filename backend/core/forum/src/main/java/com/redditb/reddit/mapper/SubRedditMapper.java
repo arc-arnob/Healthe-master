@@ -26,5 +26,6 @@ public interface SubRedditMapper {
     @InheritInverseConfiguration
     @Mapping(target = "posts", ignore = true) // Ignore the post field.
     @Mapping(target = "user", source = "user") // This is for supplying current user.
+    @Mapping(target = "createdDate", expression = "java(java.time.Instant.now())")
     Subreddit mapDtoToSubreddit(SubredditDto subredditDto, User user);
 }

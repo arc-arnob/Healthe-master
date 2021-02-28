@@ -27,12 +27,13 @@ public class CommentService {
     private CommentMapper commentMapper;
     private UserRepository userRepository;
 
-    public void save(CommentRequest commentRequest){
+    public String save(CommentRequest commentRequest){
         Post post = postRepository.findById(commentRequest.getPostId())
                     .orElseThrow(() -> new SpringRedditException("Post with id doesnt exist"+ commentRequest.getPostId()));
         Comment comment = commentMapper.map(commentRequest, post, authService.getCurrentUser());
 
         commentRepository.save(comment);
+        return "Commented!";
     }
 
     public List<CommentRequest> getAllCommentsForPost(Long postId) {
@@ -43,12 +44,18 @@ public class CommentService {
                 .map(commentMapper::mapToDto).collect(toList());
     }
 
-    public List<CommentRequest> getAllCommentsForUser(String userName) {
-        User user = userRepository.findByUsername(userName)
-                .orElseThrow(() -> new SpringRedditException(userName));
+    public List<CommentRequest> getAllCommentsForUser() {
+        String username = authService.getCurrentUser().getUsername();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new SpringRedditException(username));
         return commentRepository.findAllByUser(user)
                 .stream()
                 .map(commentMapper::mapToDto)
                 .collect(toList());
+    }
+
+    public String deleteCommentById(Long id){
+        commentRepository.deleteById(id);
+        return "Comment Deleted";
     }
 }

@@ -12,9 +12,11 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Proxy;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.time.Instant;
 import java.util.Date;
@@ -33,7 +36,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Appointment {
+public class Appointment implements Serializable{
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -58,12 +61,12 @@ public class Appointment {
     // private Patient patient;
     private String pat_username; // this is from userepository
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="docId") // what if we give here userId ?
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Doctor doctor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="appTypeId")
     private AppointmentType appType;
 

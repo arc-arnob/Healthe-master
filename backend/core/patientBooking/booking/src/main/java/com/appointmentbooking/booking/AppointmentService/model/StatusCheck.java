@@ -35,5 +35,5 @@ public class StatusCheck {
     @Temporal(TemporalType.TIME)
     private Date time;
 
-    private Long docId;
+    private String docId;
 }

@@ -39,6 +39,7 @@ public abstract class PostMapper {
     @Mapping(target="subredditName", source = "subreddit.name")
     @Mapping(target = "commentCount", expression = "java(commentCount(post))")
     @Mapping(target = "duration", expression = "java(getDuration(post))")
+    @Mapping(target = "subredditId", source = "subreddit.id")
     public abstract PostResponse maptoDto(Post post);
 
     Integer commentCount(Post post) {

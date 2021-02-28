@@ -12,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -20,10 +21,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class User implements Serializable{
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long userId;
+    private String userId;
     @NotBlank(message = "Username is required")
     private String username;
     @NotBlank(message = "Password is required")

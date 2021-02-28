@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.appointmentbooking.booking.AppointmentService.model.Appointment;
+import com.google.common.base.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,6 +21,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
     @Modifying
     @Transactional
     void deleteBydocId(String docId);
+
+    @Query(value = "SELECT * FROM appointment WHERE pat_username=?1", nativeQuery = true)
+	List<Appointment> findByPatUsername(String user);
 
     
 }

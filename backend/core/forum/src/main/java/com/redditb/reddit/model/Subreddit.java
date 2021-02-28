@@ -30,6 +30,6 @@ public class Subreddit {
     private List<Post> posts; //Other Table
     private Instant createdDate;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @JoinColumn(name = "username", referencedColumnName = "username")
     private User user; // Other table... Improve -- Other Database
 }

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class AppointmentRegitrationDto {
     
 
-    private Long docId; // This will be used to find doctor user name from doctorRepository
+    private String docId; // This will be used to find doctor user name from doctorRepository
     private Long appTypeId;
     // @JsonFormat(pattern="yyyy-MM-dd")
     private Date startDate; // May give parsing error // last fix = util.time -> sql.time

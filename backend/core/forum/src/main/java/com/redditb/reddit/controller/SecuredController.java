@@ -25,6 +25,7 @@ import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/securedController")
+@RequestMapping("/forum")
 public class SecuredController {
 
     public final SecuredApiService securedApiService;
@@ -41,7 +42,7 @@ public class SecuredController {
     public CommentService commentService;
     public VoteService voteService;
 
-
+    //forum/subreddit/create
     @PostMapping(value = "/subreddit/create")
     public String createTest(@RequestBody SubredditDto subRedditDto) {
 
@@ -50,15 +51,15 @@ public class SecuredController {
         return "Saved";
         
     }
-
-    @GetMapping(value="/subreddit/getAll")
+    //forum/subreddit/getAll -- D
+    @GetMapping(value="/subreddit/getAll") //get all threads that I am following
     public ResponseEntity<List<SubredditDto>> getAllSubreddits(){
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(securedApiService.getAll());
     }
-
-    @GetMapping(value = "/subreddit/getOne/{id}")
+    //forum/subreddit/getOne/{id} -- D
+    @GetMapping(value = "/subreddit/getOne/{id}") 
     public ResponseEntity<SubredditDto> getOneSubreddit(@PathVariable Long id){
 
         return ResponseEntity
@@ -66,35 +67,55 @@ public class SecuredController {
                 .body(securedApiService.getById(id));
 
     }
-
+    //forum/posts/create -- D
     @PostMapping("/posts/create")
-    public ResponseEntity<Void> saveOne(@RequestBody PostRequest postRequest){
-        postService.save(postRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public String saveOne(@RequestBody PostRequest postRequest){
+        String status = postService.save(postRequest);
+        return status;
     }
-    //Nothing to get all posts?
-    @GetMapping("/posts/getall")
-    public ResponseEntity<List<PostResponse>> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPosts());
-    }
-    @PostMapping("/comment/create")
-    public ResponseEntity<Void> saveOne(@RequestBody CommentRequest commentRequest){
-        commentService.save(commentRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    //forum/posts/getallByUsername -- D
+    @GetMapping("/posts/getallByUsername") //by username
+    public ResponseEntity<List<PostResponse>> getAllByUsername(){
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getPostsByUsername());
     }
 
-    @GetMapping("/comment/by-username/{username}")
-    public ResponseEntity<List<CommentRequest>> findCommentByUsername(@PathVariable String username){
+    // get all posts by subreditid 
+    //uses: 1. when all followed subredits are listed 
+    //      2. when all posts by a user is listed
+    //forum/posts/getallBySId/{subredditId} -- D
+    @GetMapping("/posts/getallBySId/{subredditId}") //this will expand the thread
+    public ResponseEntity<List<PostResponse>> getAllPostsBySubredditId(@PathVariable Long subredditId){
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getPostsBySubreddit(subredditId));
+    }
+
+
+    // forum/comment/create -- D
+    @PostMapping("/comment/create")
+    public ResponseEntity<String> saveOne(@RequestBody CommentRequest commentRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.save(commentRequest));
+    } 
+    
+    
+    //Delete comment
+    @DeleteMapping("/comment/delete/{commentId}")
+    public ResponseEntity<String> saveOne(@PathVariable Long commentId){
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.deleteCommentById(commentId));
+    } 
+
+    // forum/comment/by-username/ -- D
+    @GetMapping("/comment/by-username")
+    public ResponseEntity<List<CommentRequest>> findCommentByUsername(){
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(commentService.getAllCommentsForUser(username));
+            .body(commentService.getAllCommentsForUser());
     }
-    @GetMapping("comment/by-post/{postId}")
+    // forum/comment/by-post/{postId} -- D
+    @GetMapping("/comment/by-post/{postId}")
     public ResponseEntity<List<CommentRequest>> getAllCommentsForPost(@PathVariable Long postId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(commentService.getAllCommentsForPost(postId));
     }
-
+    // forum/vote -- D
     @PostMapping("/vote")
     public ResponseEntity<Void> votePost(@RequestBody VoteRequest voteRequest){
         voteService.vote(voteRequest);

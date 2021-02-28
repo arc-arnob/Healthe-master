@@ -26,6 +26,6 @@ public class Comment {
     private Post post;
     private Instant createdDate;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;
 }

@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -126,6 +127,23 @@ public class CatalogController {
         return result.getBody();
     }
 
+    @GetMapping("/patient-get-bookings")
+    @HystrixCommand(fallbackMethod = "getPatientAppointmentsFB")
+    @Cacheable(value="PatientBookings")
+    public Object getPatientAppointments(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>("request",headers);
+
+        String uri = loadBalancer.choose("app-service").getServiceId();
+        String url = "http://"+uri.toString() + "/patient/getappointments";
+
+        ResponseEntity<Object> result = restTemplate.exchange(url,HttpMethod.GET,entity, Object.class);
+        return result.getBody();
+    }
+
+
 
     // DOCTOR CONTROLLERSS
 
@@ -181,17 +199,211 @@ public class CatalogController {
         return status.getBody();
     }
 
+    // Doctor Schedule
+    @GetMapping("/doctor-schedule")
+    @HystrixCommand(fallbackMethod = "doctorScheduleFB")
+    public Object doctorSchedule(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+        String uri = loadBalancer.choose("app-service").getServiceId();
+        String url = "http://"+uri.toString() + "/doctor/getschedule";
+
+        ResponseEntity<Object> status = restTemplate.exchange(url,HttpMethod.GET, entity, Object.class);
+
+        return status.getBody();
+    }
+
+
 
 
     // todo
-    // update patient profile
-    // get doctor profile
+    // update patient profile --D
+    // get doctor profile --D
     // Appointment Controllers
         // get available date and time for appointment
-        // Look at all the appoiments made by a patient-details
-        // Doctor can look at his schedule
+        // Look at all the appoiments made by a patient-details --D
+        // Doctor can look at his schedule  -- D
 
     // Forum Controllers
+
+    @PostMapping("/subreddit-create") // C
+    @HystrixCommand(fallbackMethod = "createNewThreadFB")
+    public Object createNewThread(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString() + "/forum/subreddit/create";
+
+        ResponseEntity<String> result = restTemplate
+                .postForEntity(url, entity, String.class);
+        return result.getBody();
+
+    }
+
+    @PostMapping("/post-create") // C
+    @HystrixCommand(fallbackMethod = "createNewPostUnderThreadFB")
+    public Object createNewPostUnderThread(@RequestBody String dto, @RequestHeader(value="Authorization") String token){
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString() + "/forum/posts/create";
+
+        ResponseEntity<String> result = restTemplate
+        .postForEntity(url, entity, String.class);
+        return result.getBody();
+
+
+
+    }
+
+    @GetMapping("/thread-list") // C
+    @HystrixCommand(fallbackMethod = "getAllThreadFB")
+    public Object getAllThread(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString() + "/forum/subreddit/getAll";
+        
+        ResponseEntity<Object> status = restTemplate.exchange(url,HttpMethod.GET, entity, Object.class);
+        return status.getBody();
+    }
+    @GetMapping("/thread/{id}") // C
+    @HystrixCommand(fallbackMethod = "getOneThreadFB")
+    public Object getOneThread(@PathVariable Long id, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString() + "/forum/subreddit/getOne/"+id;
+        
+        ResponseEntity<Object> status = restTemplate.exchange(url,HttpMethod.GET, entity, Object.class);
+        return status.getBody();
+    }
+
+    @GetMapping("/userposts") //C
+    @HystrixCommand(fallbackMethod = "getAllUserPostsFB")
+    public Object getAllUserPosts(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString()+"/forum/posts/getallByUsername";
+        
+        ResponseEntity<Object> status = restTemplate.exchange(url,HttpMethod.GET, entity, Object.class);
+        return status.getBody();
+    }
+
+    @GetMapping("/posts-thread/{subredditId}") // C
+    @HystrixCommand(fallbackMethod = "getAllPostsUnderThreadFB")
+    public Object getAllPostsUnderThread(@PathVariable Long subredditId, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString()+"/forum/posts/getallBySId/" + subredditId;
+        
+        ResponseEntity<Object> status = restTemplate.exchange(url,HttpMethod.GET, entity, Object.class);
+        return status.getBody();
+    }
+
+    @GetMapping("/posts-comments") //-- C
+    @HystrixCommand(fallbackMethod = "getAllCommentsByUserFB")
+    public Object getAllCommentsByUser(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString()+"/forum/comment/by-username";
+        
+        ResponseEntity<Object> status = restTemplate.exchange(url,HttpMethod.GET, entity, Object.class);
+        return status.getBody();
+    }
+
+    @GetMapping("/post-comment/{postId}") // --C
+    @HystrixCommand(fallbackMethod = "getCommentByPostIdFB")
+    public Object getCommentByPostId(@PathVariable Long postId, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString() + "/forum/comment/by-post/"+postId;
+        
+        ResponseEntity<Object> status = restTemplate.exchange(url,HttpMethod.GET, entity, Object.class);
+        return status.getBody();
+    }
+
+    @PostMapping("/vote") // -- C
+    @HystrixCommand(fallbackMethod = "votePostFB")
+    public Object votePost(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString() + "/forum/vote";
+        ResponseEntity<String> result = restTemplate
+        .postForEntity(url, entity, String.class);        
+        return result.getBody();
+    }
+    @PostMapping("/create-comment") // C
+    @HystrixCommand(fallbackMethod = "createCommentFB")
+    public String createComment(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString() + "/forum/comment/create";
+
+        ResponseEntity<String> result = restTemplate
+                .postForEntity(url, entity, String.class);
+
+        return result.getBody();
+    }
+
+    @DeleteMapping("/comment-delete/{id}")
+    @HystrixCommand(fallbackMethod = "deleteCommentFB")
+    public String deleteComment(@PathVariable Long id, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+        String uri = loadBalancer.choose("forum-service").getServiceId();
+        String url = "http://"+uri.toString() + "/forum/comment/delete/"+ id;
+
+        ResponseEntity<String> status = restTemplate.exchange(url,HttpMethod.DELETE, entity, String.class);
+
+        return status.getBody();
+    }
+
+    // delete subreddit // chaining 1. vote 2. comment 3. post 4. thread
+    // delete posts // 1. vote 2. comment 3. post
+    // delete votes 
+
+   
+
+    
+
+
+
 
 
     // Fallback commands
@@ -221,7 +433,56 @@ public class CatalogController {
     public Object patientProfileUpdateFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
         return "Something Horribly went wrong";
     }
+    public Object getPatientAppointmentsFB(@RequestHeader(value = "Authorization") String token){
+        return "Oops Something went Terribly wrong";
+    }
+    public Object doctorScheduleFB(@RequestHeader(value = "Authorization") String token){
+        return "Oops Something went wrong";
+    }
+    public Object createNewThreadFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "Oops Something went wrong";
+    }
     // one Redis connetion here for each service application
+    public Object createNewPostUnderThreadFB(@RequestBody String dto, @RequestHeader(value="Authorization") String token){
+        return "Oops Something went wrong";
+    }
+
+    public Object getAllThreadFB(@RequestHeader(value = "Authorization") String token){
+        return "Oops Something went wrong";
+    }
+
+    public Object getOneThreadFB(@PathVariable Long id, @RequestHeader(value = "Authorization") String token){
+        return "Oops Something went wrong";
+
+    }
+
+    public Object getAllUserPostsFB(@RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+    }
+    public Object getAllPostsUnderThreadFB(@PathVariable Long subredditId, @RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+
+    }
+    public Object getAllCommentsByUserFB(@RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+
+    }
+    public Object getCommentByPostIdFB(@PathVariable Long postId, @RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+
+    }
+    public Object votePostFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+
+    }
+
+    public String createCommentFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+    }
+    public String deleteCommentFB(@PathVariable Long id, @RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+
+    }
 
     
 }

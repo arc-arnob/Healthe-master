@@ -2,10 +2,13 @@ package com.appointmentbooking.booking.AppointmentService.controller;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 import com.appointmentbooking.booking.AppointmentService.dto.AppointmentRegitrationDto;
 import com.appointmentbooking.booking.AppointmentService.dto.DoctorRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.dto.PatientRegistrationDto;
+import com.appointmentbooking.booking.AppointmentService.model.Appointment;
+import com.appointmentbooking.booking.AppointmentService.model.StatusCheck;
 import com.appointmentbooking.booking.AppointmentService.service.AppointmentService;
 import com.appointmentbooking.booking.AppointmentService.service.DoctorRegistrationService;
 import com.appointmentbooking.booking.AppointmentService.service.PatientRegistrationService;
@@ -82,6 +85,12 @@ public class SecuredController {
         return res;
     }
 
+    // All appointments made by patient
+    @GetMapping("/patient/getappointments")
+    public List<Appointment> getAppointments(){
+        return appService.getAppointmentsOfaPatient();
+    }
+
 
     // DOCTOR CONTROLLER
 
@@ -105,6 +114,13 @@ public class SecuredController {
         String status = doctorRegistration.deleteDoctorInfo();
         return status;
     }
+
+    @GetMapping("/doctor/getschedule")
+    public List<StatusCheck> getDocSchedule(){
+        List<StatusCheck> result = appService.getDoctorBookings();
+        return result;
+    }
+    
 
     // Doctor booking status check
     // Status check while booking appointment //keep db using except

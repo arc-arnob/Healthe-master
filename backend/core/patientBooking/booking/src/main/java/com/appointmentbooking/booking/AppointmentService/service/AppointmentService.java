@@ -2,6 +2,7 @@ package com.appointmentbooking.booking.AppointmentService.service;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 import com.appointmentbooking.booking.AppointmentService.dto.AppointmentRegitrationDto;
 import com.appointmentbooking.booking.AppointmentService.dto.StatusDto;
@@ -10,6 +11,7 @@ import com.appointmentbooking.booking.AppointmentService.mapper.StatusMapper;
 import com.appointmentbooking.booking.AppointmentService.model.Appointment;
 import com.appointmentbooking.booking.AppointmentService.model.AppointmentType;
 import com.appointmentbooking.booking.AppointmentService.model.Doctor;
+import com.appointmentbooking.booking.AppointmentService.model.Patient;
 import com.appointmentbooking.booking.AppointmentService.model.StatusCheck;
 import com.appointmentbooking.booking.AppointmentService.repository.AppointmentRepository;
 import com.appointmentbooking.booking.AppointmentService.repository.AppointmentTypeRepository;
@@ -20,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 
 import lombok.AllArgsConstructor;
 
@@ -64,7 +67,7 @@ public class AppointmentService {
         Date date = appointmentRegitrationDto.getStartDate();
         Date time = appointmentRegitrationDto.getStartTime();
 
-        Long docId = appointmentRegitrationDto.getDocId();
+        String docId = appointmentRegitrationDto.getDocId();
         Long statusId = statusRepo.getStatusChecked(time, docId, date);
 
         Date test = statusRepo.getDateForTesting();
@@ -99,6 +102,27 @@ public class AppointmentService {
     
 
 
+    }
+
+    public List<Appointment> getAppointmentsOfaPatient(){
+
+        String user = authservice.getCurrentUser().getUsername();
+
+        List<Appointment> appointment = appointmentRepository.findByPatUsername(user);
+
+        System.out.println(appointment.size());
+
+        return appointment;
+
+
+
+        
+    }
+
+    public List<StatusCheck> getDoctorBookings(){
+        String user = authservice.getCurrentUser().getUsername();
+        List<StatusCheck> status = statusRepo.findByDocId(user);
+        return status;
     }
 
     

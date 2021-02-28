@@ -29,11 +29,12 @@ public class PostService {
     private PostRepository postRepository;
     private UserRepository userRepository;
 
-    public void save(PostRequest postRequest){
+    public String save(PostRequest postRequest){
        Subreddit subreddit = subredditrepository.findByName(postRequest.getSubredditName())
                                 .orElseThrow(()-> new SpringRedditException("No subreddit found with this name"+postRequest.getSubredditName()));
     
         postRepository.save(postMapper.map(postRequest, subreddit, authservice.getCurrentUser()));
+        return "Post Created Successfully";
     }
 
     public PostResponse getPost(Long id) {
@@ -59,7 +60,8 @@ public class PostService {
     }
 
     
-    public List<PostResponse> getPostsByUsername(String username) {
+    public List<PostResponse> getPostsByUsername() {
+        String username = authservice.getCurrentUser().getUsername();
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new SpringRedditException(username));
         return postRepository.findByUser(user)

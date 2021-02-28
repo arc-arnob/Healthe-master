@@ -8,3 +8,5 @@
     "appTypeId":1,
     "docId":1
 }
+
+mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8171 , this is used to up the server on different server
