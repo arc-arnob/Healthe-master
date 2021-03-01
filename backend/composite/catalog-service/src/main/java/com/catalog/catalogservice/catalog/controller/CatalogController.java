@@ -9,6 +9,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -167,7 +168,7 @@ public class CatalogController {
 
     @PutMapping("/doctor-update")
     @HystrixCommand(fallbackMethod = "updateDoctorFB")
-    @CachePut(value="DoctorProfile")
+    @CacheEvict(value="DoctorProfile", allEntries = true)
     public String updateDoctor(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -185,6 +186,7 @@ public class CatalogController {
 
     @DeleteMapping("/doctor-delete")
     @HystrixCommand(fallbackMethod = "deleteDoctorFB")
+    @CacheEvict(value="DoctorProfile", allEntries = true)
     public String deleteDoctor(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -202,6 +204,7 @@ public class CatalogController {
     // Doctor Schedule
     @GetMapping("/doctor-schedule")
     @HystrixCommand(fallbackMethod = "doctorScheduleFB")
+    @Cacheable(value="docschedule")
     public Object doctorSchedule(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -267,6 +270,7 @@ public class CatalogController {
 
     @GetMapping("/thread-list") // C
     @HystrixCommand(fallbackMethod = "getAllThreadFB")
+    @Cacheable(value="threads")
     public Object getAllThread(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -280,6 +284,7 @@ public class CatalogController {
     }
     @GetMapping("/thread/{id}") // C
     @HystrixCommand(fallbackMethod = "getOneThreadFB")
+    @Cacheable(value="oneThread")
     public Object getOneThread(@PathVariable Long id, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -294,6 +299,7 @@ public class CatalogController {
 
     @GetMapping("/userposts") //C
     @HystrixCommand(fallbackMethod = "getAllUserPostsFB")
+    @Cacheable(value="userposts")
     public Object getAllUserPosts(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -308,6 +314,7 @@ public class CatalogController {
 
     @GetMapping("/posts-thread/{subredditId}") // C
     @HystrixCommand(fallbackMethod = "getAllPostsUnderThreadFB")
+    @Cacheable(value="postUnderThread")
     public Object getAllPostsUnderThread(@PathVariable Long subredditId, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -322,6 +329,7 @@ public class CatalogController {
 
     @GetMapping("/posts-comments") //-- C
     @HystrixCommand(fallbackMethod = "getAllCommentsByUserFB")
+    @Cacheable(value="commnetsByUser")
     public Object getAllCommentsByUser(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -336,6 +344,7 @@ public class CatalogController {
 
     @GetMapping("/post-comment/{postId}") // --C
     @HystrixCommand(fallbackMethod = "getCommentByPostIdFB")
+    @Cacheable(value="commentById")
     public Object getCommentByPostId(@PathVariable Long postId, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -380,6 +389,10 @@ public class CatalogController {
 
     @DeleteMapping("/comment-delete/{id}")
     @HystrixCommand(fallbackMethod = "deleteCommentFB")
+    @Caching(evict = {
+        @CacheEvict("commentByUser"),
+        @CacheEvict(value = "CommentById")
+    })
     public String deleteComment(@PathVariable Long id, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

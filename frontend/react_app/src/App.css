@@ -1,0 +1,13 @@
+.map{
+    height: 400px;
+    width: 700px;
+    margin-top: 100px;
+    margin-left: 50px;
+    border: 3px solid #73AD21;
+}
+.locationinfo{
+    position: absolute;
+    margin-top:-400px;
+    margin-left: 820px;
+}
+.rowC{display:flex; flex-direction:row};

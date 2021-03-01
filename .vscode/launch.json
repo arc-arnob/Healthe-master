@@ -2,90 +2,22 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-RedditApplication<reddit>",
+            "name": "Spring Boot-CovidApplication<covid (2)>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
-            "mainClass": "com.redditb.reddit.RedditApplication",
-            "projectName": "reddit",
+            "mainClass": "com.covid_booking.covid.CovidApplication",
+            "projectName": "covid (2)",
             "args": ""
         },
         {
             "type": "java",
-            "name": "Spring Boot-ZuulServiceApplication<zuul-service>",
+            "name": "Spring Boot-BookingPerUserApplication<booking_per_user>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
-            "mainClass": "com.zuul.zuulservice.ZuulServiceApplication",
-            "projectName": "zuul-service",
-            "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-MavenWrapperDownloader",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "MavenWrapperDownloader",
-            "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-ServicedisApplication<servicedis>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.servicediscovery.servicedis.ServicedisApplication",
-            "projectName": "servicedis",
-            "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-SecuredMsApplication<secured-ms>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.testapi.securedms.SecuredMsApplication",
-            "projectName": "secured-ms",
-            "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-JwtAuthServiceApplication<jwt_auth_service>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.jwt_auth_service.jwt_auth_service.JwtAuthServiceApplication",
-            "projectName": "jwt_auth_service",
-            "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-BookingApplication<booking>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.appointmentbooking.booking.BookingApplication",
-            "projectName": "booking",
-            "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-BookingApplication",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.appointmentbooking.booking.BookingApplication",
-            "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-CatalogServiceApplication<catalog-service>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.catalog.catalogservice.CatalogServiceApplication",
-            "projectName": "catalog-service",
+            "mainClass": "com.booking.booking_per_user.BookingPerUserApplication",
+            "projectName": "booking_per_user",
             "args": ""
         }
     ]
