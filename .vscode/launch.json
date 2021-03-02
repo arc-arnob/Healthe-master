@@ -2,12 +2,42 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-CovidApplication<covid (2)>",
+            "name": "Spring Boot-MedicationSystemApplication<medication_system>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
-            "mainClass": "com.covid_booking.covid.CovidApplication",
-            "projectName": "covid (2)",
+            "mainClass": "com.medication.medicationSystem.MedicationSystemApplication",
+            "projectName": "medication_system",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ZuulServiceApplication<zuul-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.zuul.zuulservice.ZuulServiceApplication",
+            "projectName": "zuul-service",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServicedisApplication<servicedis>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.servicediscovery.servicedis.ServicedisApplication",
+            "projectName": "servicedis",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-JwtAuthServiceApplication<jwt_auth_service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.jwt_auth_service.jwt_auth_service.JwtAuthServiceApplication",
+            "projectName": "jwt_auth_service",
             "args": ""
         },
         {
@@ -18,6 +48,25 @@
             "console": "internalConsole",
             "mainClass": "com.booking.booking_per_user.BookingPerUserApplication",
             "projectName": "booking_per_user",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-CovidApplication<covid (2)>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.covid_booking.covid.CovidApplication",
+            "projectName": "covid (2)",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MavenWrapperDownloader",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "MavenWrapperDownloader",
             "args": ""
         }
     ]

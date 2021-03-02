@@ -42,7 +42,7 @@ public class BookingController {
     public String getNearByCount(@PathVariable String latitude,@PathVariable String longitude){
         System.out.println(latitude);
         System.out.println(longitude);
-        return locationService.findByLocationNear(Double.parseDouble(longitude), Double.parseDouble(latitude));
+        return locationService.findByLocationNear(Double.parseDouble(longitude), Double.parseDouble(latitude)).toString();
     } 
     
 }

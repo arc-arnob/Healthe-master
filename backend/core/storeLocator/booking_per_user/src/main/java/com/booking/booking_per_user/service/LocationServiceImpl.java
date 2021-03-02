@@ -1,16 +1,20 @@
 package com.booking.booking_per_user.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.booking.booking_per_user.dao.BookingDao;
 import com.booking.booking_per_user.model.Coordinates;
 import com.booking.booking_per_user.model.Document;
 import com.booking.booking_per_user.model.Location;
+import com.booking.booking_per_user.model.LocationResponse;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.geojson.Position;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Metric;
 import org.springframework.data.geo.Metrics;
@@ -46,7 +50,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public String findByLocationNear(double lat, double lon) {
+    public List<LocationResponse> findByLocationNear(double lat, double lon) {
         Query q =  new Query();
         Point point = new Point(lon,lat);
         //1.
@@ -54,12 +58,41 @@ public class LocationServiceImpl implements LocationService {
         query.spherical(true);
         query.inKilometers();
         query.maxDistance(100);
-        query.minDistance(1);
+        query.minDistance(0);
         query.query(q);
         query.limit(100);
         GeoResults<Document> data = mongoTemplate.geoNear(query, Document.class);
-        System.out.println(data);
-        return "Checking";
+        System.out.println(data); //debug
+        System.out.println(data
+        .getContent().get(0).getDistance().getMetric().toString());
+         // store name, street name, distance
+        List<LocationResponse> locationResponses = new ArrayList();
+        Iterator<GeoResult<Document>> it = data.iterator();
+        int i = 0;
+        while(it.hasNext() && i < 10){
+            LocationResponse res = new LocationResponse();
+            res.setStoreName(data
+                                .getContent()
+                                .get(0)
+                                .getContent()
+                                .getStoreName());
+            res.setStreetName(data
+                                .getContent()
+                                .get(0)
+                                .getContent()
+                                .getStreetName());
+            res.setDistance(data
+            .getContent().get(0).getDistance().getValue());
+
+            res.setMetric(data
+            .getContent().get(0).getDistance().getMetric().toString());
+
+            locationResponses.add(res);
+            System.out.println("RUNUUUUDHDDUSHSHDIHSIDHSIDHIHDS");      
+            i++;  
+    }
+        
+        return locationResponses;
 
         //2.
     

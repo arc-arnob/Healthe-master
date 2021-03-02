@@ -124,7 +124,7 @@ class MapComponent extends Component {
 
       // Send Location data to 8082
       postLocationToServer = async (data)=>{
-        await axios.post(`http://localhost:8082/booking/create`,data).then(
+        await axios.post(`http://localhost:8086/booking/create`,data).then(
           (response) => {
             toast.success("Booking confirmed");
           },

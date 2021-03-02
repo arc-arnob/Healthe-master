@@ -3,9 +3,7 @@ package com.booking.booking_per_user.service;
 import java.util.List;
 
 import com.booking.booking_per_user.model.Document;
-import com.mongodb.client.model.geojson.Point;
-
-import org.springframework.data.geo.Distance;
+import com.booking.booking_per_user.model.LocationResponse;
 
 
 
@@ -15,5 +13,5 @@ public interface LocationService {
 
     public Document createMarker(Document document); // Create Coordinate
 
-    public String findByLocationNear(double lon, double lat); // find geonear points
+    public List<LocationResponse> findByLocationNear(double lon, double lat); // find geonear points
 }
