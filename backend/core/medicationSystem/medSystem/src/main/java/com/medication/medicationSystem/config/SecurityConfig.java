@@ -51,11 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       
         http.csrf().disable() // csrf attack occurs when using sessions and cookies
         .authorizeRequests()
-        .antMatchers("/get/**")
+        .antMatchers("medication/get/**")
         .hasAnyAuthority("PATIENT","DOCTOR")
-        .antMatchers("/create")
+        .antMatchers("/medication/create/**")
         .hasAuthority("DOCTOR")
-        .antMatchers("/nearByStore/**")
+        .antMatchers("/medication/nearByStore/**")
         .hasAuthority("PATIENT")
         .antMatchers("/api/auth/**")
         .permitAll()

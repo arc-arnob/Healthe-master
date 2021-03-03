@@ -429,7 +429,7 @@ public class CatalogController {
                 .postForEntity(url, entity, String.class);
         return result.getBody();
     }
-    // get medication - get
+    // get medication - get by patient id .
     @GetMapping("/get-medication")
     public AssignMedication[] getMedic(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
@@ -454,6 +454,20 @@ public class CatalogController {
         String url = "http://"+uri.toString() + "/medication/nearByStore";
 
         ResponseEntity<Object> responseEntity = restTemplate.exchange(url,HttpMethod.GET,entity, Object.class);
+        Object res  = responseEntity.getBody();
+        return res;
+    }
+
+    @DeleteMapping("/handover-medicine/{patId}")
+    public Object handOverMedicine(@PathVariable String patId, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("medication-service").getServiceId();
+        String url = "http://"+uri.toString() + "/medication/handover-medicine/"+patId;
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url,HttpMethod.DELETE,entity, String.class);
         Object res  = responseEntity.getBody();
         return res;
     }

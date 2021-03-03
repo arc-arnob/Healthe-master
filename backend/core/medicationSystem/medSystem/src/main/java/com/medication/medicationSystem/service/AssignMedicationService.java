@@ -57,5 +57,12 @@ public class AssignMedicationService {
         }   
     }
 
+    // by pharmacist
+    public String deleteMedicationRecordByPatId(String patId){
+        medicationRepo.deleteRecord(patId);
+        return "Medicines handovered";
+    }
+
+
 
 }

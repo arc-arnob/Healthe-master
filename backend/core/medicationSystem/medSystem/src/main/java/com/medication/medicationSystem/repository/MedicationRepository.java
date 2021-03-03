@@ -14,8 +14,10 @@ public interface MedicationRepository extends MongoRepository<AssignMedication, 
     public List<AssignMedication> findByDocId(String docId);
     public List<AssignMedication> findByPatId(String patId);
 
-    @Query("db.Medication.find({ patId: ?1 }, { coordiantes:1 })")
+    @Query("db.assignMedication.find({ patId: ?1 }, { coordiantes:1 })")
     public List<Double> findLocationByPatId(String patId);
 
+    @Query(value = "{'patId': $0}", delete=true)
+    public AssignMedication deleteRecord(String patId);
 
 }
