@@ -5,6 +5,7 @@ import java.util.List;
 import com.booking.booking_per_user.model.Coordinates;
 import com.booking.booking_per_user.model.Document;
 import com.booking.booking_per_user.model.Location;
+import com.booking.booking_per_user.model.LocationResponse;
 import com.booking.booking_per_user.service.LocationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,10 @@ public class BookingController {
     }
 
     @GetMapping(value="/near/{latitude:.+},{longitude:.+}")
-    public String getNearByCount(@PathVariable String latitude,@PathVariable String longitude){
+    public List<LocationResponse> getNearByCount(@PathVariable String latitude,@PathVariable String longitude){
         System.out.println(latitude);
         System.out.println(longitude);
-        return locationService.findByLocationNear(Double.parseDouble(longitude), Double.parseDouble(latitude)).toString();
+        return locationService.findByLocationNear(Double.parseDouble(longitude), Double.parseDouble(latitude));
     } 
     
 }

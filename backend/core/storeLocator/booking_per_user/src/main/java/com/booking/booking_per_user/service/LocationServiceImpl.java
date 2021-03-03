@@ -62,35 +62,27 @@ public class LocationServiceImpl implements LocationService {
         query.query(q);
         query.limit(100);
         GeoResults<Document> data = mongoTemplate.geoNear(query, Document.class);
-        System.out.println(data); //debug
+        System.out.println(data.getContent()); //debug
         System.out.println(data
         .getContent().get(0).getDistance().getMetric().toString());
          // store name, street name, distance
         List<LocationResponse> locationResponses = new ArrayList();
-        Iterator<GeoResult<Document>> it = data.iterator();
         int i = 0;
-        while(it.hasNext() && i < 10){
+        for(GeoResult<Document> dat : data){
+            if(i>=10){
+                break;
+            }
+            //System.out.println(data.iterator().getClass().getName());
             LocationResponse res = new LocationResponse();
-            res.setStoreName(data
-                                .getContent()
-                                .get(0)
-                                .getContent()
-                                .getStoreName());
-            res.setStreetName(data
-                                .getContent()
-                                .get(0)
-                                .getContent()
-                                .getStreetName());
-            res.setDistance(data
-            .getContent().get(0).getDistance().getValue());
+            res.setStoreName(dat.getContent().getStoreName());
+            res.setStreetName(dat.getContent().getStreetName());
+            res.setDistance(dat.getDistance().getValue());
 
-            res.setMetric(data
-            .getContent().get(0).getDistance().getMetric().toString());
-
+            res.setMetric(dat.getDistance().getMetric().toString());
             locationResponses.add(res);
-            System.out.println("RUNUUUUDHDDUSHSHDIHSIDHSIDHIHDS");      
+            // System.out.println("RUNUUUUDHDDUSHSHDIHSIDHSIDHIHDS");      
             i++;  
-    }
+        }
         
         return locationResponses;
 
