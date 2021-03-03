@@ -31,11 +31,30 @@ public class AssignMedicationService {
         return coordinates;
     }
 
+    // only be done by doctor
     public AssignMedication createDoc(AssignMedication document) {
         
         String doc_username = authService.getCurrentUser().getUsername();
         document.setDocId(doc_username);
         return medicationRepo.save(document);
+    }
+    // only by patient
+    public List<Double> getMedicationStore(){
+        String role = authService.getCurrentUser().getRoles();
+        System.out.println(role+"IN GETMENDOD");
+        if(role.equals("PATIENT")){
+            String pat_username = authService.getCurrentUser().getUsername();
+            System.out.println("Here in getMedicatiorStore1");
+            List<AssignMedication> document = medicationRepo.findByPatId(pat_username); //error
+            List<Double> pat_location = document.get(0).getCoordinates();
+
+            System.out.println("Here in getMedicatiorStore");
+
+            return pat_location;
+        }
+        else{
+            return null;
+        }   
     }
 
 

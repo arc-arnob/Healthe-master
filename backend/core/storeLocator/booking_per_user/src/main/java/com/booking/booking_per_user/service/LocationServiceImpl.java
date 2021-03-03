@@ -63,8 +63,8 @@ public class LocationServiceImpl implements LocationService {
         query.limit(100);
         GeoResults<Document> data = mongoTemplate.geoNear(query, Document.class);
         System.out.println(data.getContent()); //debug
-        System.out.println(data
-        .getContent().get(0).getDistance().getMetric().toString());
+        // System.out.println(data
+        // .getContent().get(0).getDistance().getMetric().toString());
          // store name, street name, distance
         List<LocationResponse> locationResponses = new ArrayList();
         int i = 0;

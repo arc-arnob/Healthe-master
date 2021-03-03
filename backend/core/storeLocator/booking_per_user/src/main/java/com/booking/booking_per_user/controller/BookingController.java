@@ -38,7 +38,7 @@ public class BookingController {
     public Document createMarker(@RequestBody Document document) {
         return locationService.createMarker(document);
     }
-
+    // for patient to find nearby stores.
     @GetMapping(value="/near/{latitude:.+},{longitude:.+}")
     public List<LocationResponse> getNearByCount(@PathVariable String latitude,@PathVariable String longitude){
         System.out.println(latitude);

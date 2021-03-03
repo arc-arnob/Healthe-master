@@ -1,6 +1,7 @@
 package com.catalog.catalogservice.catalog.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import com.catalog.catalogservice.model.*;
 
 @RestController
 @RequestMapping("/catalog")
@@ -410,6 +413,50 @@ public class CatalogController {
     // delete subreddit // chaining 1. vote 2. comment 3. post 4. thread
     // delete posts // 1. vote 2. comment 3. post
     // delete votes 
+
+    // Medication Controllers
+    // create-medication -post
+    @PostMapping("/create-medication")
+    public String createMedic(@RequestBody AssignMedication dto, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<AssignMedication> entity = new HttpEntity<AssignMedication>(dto, headers);
+        String uri = loadBalancer.choose("medication-service").getServiceId();
+        String url = "http://"+uri.toString() + "/medication/create";
+
+        ResponseEntity<String> result = restTemplate
+                .postForEntity(url, entity, String.class);
+        return result.getBody();
+    }
+    // get medication - get
+    @GetMapping("/get-medication")
+    public AssignMedication[] getMedic(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("medication-service").getServiceId();
+        String url = "http://"+uri.toString() + "/medication/get";
+
+        ResponseEntity<AssignMedication[]> responseEntity = restTemplate.exchange(url,HttpMethod.GET,entity, AssignMedication[].class);
+        AssignMedication[] res  = responseEntity.getBody();
+        return res;
+    }
+    // get-nearby stores -get
+    @GetMapping("/get-stores")
+    public Object getNearBy(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("medication-service").getServiceId();
+        String url = "http://"+uri.toString() + "/medication/nearByStore";
+
+        ResponseEntity<Object> responseEntity = restTemplate.exchange(url,HttpMethod.GET,entity, Object.class);
+        Object res  = responseEntity.getBody();
+        return res;
+    }
 
    
 
