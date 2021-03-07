@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch GatewayApplication",
+            "request": "launch",
+            "mainClass": "com.diagnosis_gateway.gateway.GatewayApplication"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-MedicationSystemApplication<medication_system>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -97,6 +103,16 @@
             "console": "internalConsole",
             "mainClass": "com.redditb.reddit.RedditApplication",
             "projectName": "reddit",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-GatewayApplication<gateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.diagnosis_gateway.gateway.GatewayApplication",
+            "projectName": "gateway",
             "args": ""
         }
     ]

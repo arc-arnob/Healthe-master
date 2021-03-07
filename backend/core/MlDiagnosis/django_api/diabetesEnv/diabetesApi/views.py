@@ -15,7 +15,7 @@ import numpy as np
 from sklearn import preprocessing
 import pandas as pd
 from .prediction import DiabetesModel
-
+from . import dto
 # Create your views here.
 
 class DiagnosisView(viewsets.ModelViewSet):
@@ -27,10 +27,16 @@ def diabeticOrNot(Request):
         try:
             mydata = Request.data
             dataframe_instance = np.array(list(mydata.values()))
-            dataframe_instance = np.reshape(dataframe_instance,(-1,4)) 
+            dataframe_instance = np.reshape(dataframe_instance,(-1,4))
+            print(dataframe_instance) 
             model = DiabetesModel('modelv3.sav')
             outcome = model.predict_outcome(dataframe_instance)
             proba = model.predict_proba(dataframe_instance)
-            return JsonResponse('Your Status is {} with probability of {}'.format(outcome, proba), safe=False)
+            print(outcome[0])
+            print(proba[0])
+            arr = list()
+            arr.append(int(outcome[0]))
+            arr.append(float(proba[0])*100)
+            return JsonResponse(arr, safe=False)
         except ValueError as e:
             return Response(e.args[0], status.HTTP_400_BAD_REQUEST)

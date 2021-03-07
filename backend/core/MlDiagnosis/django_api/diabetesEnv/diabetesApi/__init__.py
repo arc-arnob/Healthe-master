@@ -7,6 +7,7 @@ server_port = int(sys.argv[-1])
 
 
 
-registry_client, discovery_client = eureka.init(eureka_server="http://127.0.0.1:8761",
-                                                app_name="django-app",
+registry_client = eureka.init(eureka_server="http://127.0.0.1:8761",
+                                                app_name="diabetes-app",
+                                                instance_ip='127.0.0.1',
                                                 instance_port=server_port)
