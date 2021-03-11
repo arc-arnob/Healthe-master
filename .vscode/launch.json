@@ -114,6 +114,16 @@
             "mainClass": "com.diagnosis_gateway.gateway.GatewayApplication",
             "projectName": "gateway",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MailingServiceApplication<mailing-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.mailingservice.mailingservice.MailingServiceApplication",
+            "projectName": "mailing-service",
+            "args": ""
         }
     ]
 }

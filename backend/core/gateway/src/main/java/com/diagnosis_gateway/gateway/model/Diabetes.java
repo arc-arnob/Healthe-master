@@ -18,7 +18,7 @@ public class Diabetes {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
-    private String pat_username;
+    private String username;
     private Integer pregnacies;
     private Double Glucose; // yes
     private Double BloodPressure;  

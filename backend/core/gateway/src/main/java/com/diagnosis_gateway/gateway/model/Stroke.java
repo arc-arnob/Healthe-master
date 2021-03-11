@@ -17,7 +17,7 @@ public class Stroke {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
-    private String pat_username;
+    private String username;
     private Double gender;
     private Double ever_married;
     private Double work_type;
@@ -29,5 +29,5 @@ public class Stroke {
     private Double avg_glucose_level;
     private Double bmi;
     private Integer stroke;
-    private Double Probability;
+    private Double probability;
 }
