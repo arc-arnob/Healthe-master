@@ -8,6 +8,7 @@ import com.appointmentbooking.booking.AppointmentService.dto.AppointmentRegitrat
 import com.appointmentbooking.booking.AppointmentService.dto.DoctorRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.dto.PatientRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.model.Appointment;
+import com.appointmentbooking.booking.AppointmentService.model.NotificationEmail;
 import com.appointmentbooking.booking.AppointmentService.model.StatusCheck;
 import com.appointmentbooking.booking.AppointmentService.service.AppointmentService;
 import com.appointmentbooking.booking.AppointmentService.service.DoctorRegistrationService;
@@ -16,6 +17,7 @@ import com.appointmentbooking.booking.AppointmentService.service.PatientRegistra
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +43,11 @@ public class SecuredController {
     private AppointmentService appService;
 
     private CacheManager cacheManager;
+
+    @Autowired
+    LoadBalancerClient loadBalancer;
+    @Autowired
+    RestTemplate restTemplate;
 
     @GetMapping("/")
     public String testing(){
@@ -82,6 +90,19 @@ public class SecuredController {
     public String appointmentBooking(@RequestBody AppointmentRegitrationDto appointmentRegitrationDto){
         
         String res = appService.saveAppointment(appointmentRegitrationDto);
+
+        // ************MAILING SERVICE CODE*****************
+
+        if(!res.equals("Not Available")){
+            NotificationEmail email = appService.sendMailIfPatient(appointmentRegitrationDto);
+            System.out.println("GOOOD to GO!");
+            String mail_uri = loadBalancer.choose("mailing-service").getServiceId();
+            String mail_url = "http://"+mail_uri.toString() + "/sendmail";
+            System.out.println(mail_url);
+            ResponseEntity<String> mailResponseEntity = restTemplate.postForEntity(mail_url,email,String.class);
+        }
+
+
         return res;
     }
 

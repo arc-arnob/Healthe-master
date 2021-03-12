@@ -3,6 +3,8 @@ package com.medication.medicationSystem.service;
 import java.util.List;
 
 import com.medication.medicationSystem.model.AssignMedication;
+import com.medication.medicationSystem.model.Medication;
+import com.medication.medicationSystem.model.NotificationEmail;
 import com.medication.medicationSystem.repository.MedicationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +63,16 @@ public class AssignMedicationService {
     public String deleteMedicationRecordByPatId(String patId){
         medicationRepo.deleteRecord(patId);
         return "Medicines handovered";
+    }
+
+    public NotificationEmail sendMailIfPatient(AssignMedication document) {
+
+        String msg = "Hey "+document.getPatId()+" you have been assigned medicines by "+document.getDocId()+"They are: "+document.getMedication().toString();
+        NotificationEmail email = new NotificationEmail();
+        email.setRecipient(authService.getCurrentUser().getEmail());
+        email.setSubject("Your Medication List");
+        email.setBody(msg);
+        return email;
     }
 
 

@@ -11,6 +11,7 @@ import com.appointmentbooking.booking.AppointmentService.mapper.StatusMapper;
 import com.appointmentbooking.booking.AppointmentService.model.Appointment;
 import com.appointmentbooking.booking.AppointmentService.model.AppointmentType;
 import com.appointmentbooking.booking.AppointmentService.model.Doctor;
+import com.appointmentbooking.booking.AppointmentService.model.NotificationEmail;
 import com.appointmentbooking.booking.AppointmentService.model.Patient;
 import com.appointmentbooking.booking.AppointmentService.model.StatusCheck;
 import com.appointmentbooking.booking.AppointmentService.repository.AppointmentRepository;
@@ -123,6 +124,16 @@ public class AppointmentService {
         String user = authservice.getCurrentUser().getUsername();
         List<StatusCheck> status = statusRepo.findByDocId(user);
         return status;
+    }
+
+    public NotificationEmail sendMailIfPatient(AppointmentRegitrationDto dto) {
+        String msg = "Hey "+authservice.getCurrentUser().getUsername()+" your appointment with doctor "+
+                    dto.getDocId()+"is booked on "+ dto.getStartDate()+"at time "+ dto.getStartTime();
+        NotificationEmail email = new NotificationEmail();
+        email.setRecipient(authservice.getCurrentUser().getEmail());
+        email.setSubject("Your Appointment is booked");
+        email.setBody(msg);
+        return email;
     }
 
     

@@ -416,7 +416,7 @@ public class CatalogController {
 
     // Medication Controllers
     // create-medication -post
-    @PostMapping("/create-medication")
+    @PostMapping("/create-medication") //hystrix
     public String createMedic(@RequestBody AssignMedication dto, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -430,7 +430,8 @@ public class CatalogController {
         return result.getBody();
     }
     // get medication - get by patient id .
-    @GetMapping("/get-medication")
+    //cache put
+    @GetMapping("/get-medication") //hystrix
     public AssignMedication[] getMedic(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -444,7 +445,8 @@ public class CatalogController {
         return res;
     }
     // get-nearby stores -get
-    @GetMapping("/get-stores")
+    // cache put
+    @GetMapping("/get-stores") //hystrix
     public Object getNearBy(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -457,8 +459,9 @@ public class CatalogController {
         Object res  = responseEntity.getBody();
         return res;
     }
-
-    @DeleteMapping("/handover-medicine/{patId}")
+    
+    //cache evict
+    @DeleteMapping("/handover-medicine/{patId}") //hystrix
     public Object handOverMedicine(@PathVariable String patId, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -468,6 +471,79 @@ public class CatalogController {
         String url = "http://"+uri.toString() + "/medication/handover-medicine/"+patId;
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(url,HttpMethod.DELETE,entity, String.class);
+        Object res  = responseEntity.getBody();
+        return res;
+    }
+
+
+    // ML api geatway
+    // cache and hystrix 
+    // diagnonsis -- diabetes -> psot and get list
+    //            -- stroke -> post and get list.
+
+    @PostMapping("/diabetes-diagnosis")
+    @HystrixCommand(fallbackMethod = "getDiabetesDiagnosisFB")
+    public String getDiabetesDiagnosis(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+
+        String uri = loadBalancer.choose("diagnosis-service").getServiceId();
+        String url = "http://"+uri.toString() + "/diagnosis/patient/getDiabetesdiagnosis";
+
+        ResponseEntity<String> result = restTemplate
+                .postForEntity(url, entity, String.class);
+
+        return result.getBody();
+    }
+
+    @GetMapping("/get-diabetes-record") //hystrix
+    @Cacheable(value = "diabetesRecord")
+    @HystrixCommand(fallbackMethod = "getDiabetesRecordFB")
+    public Object getDiabetesRecord(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("diagnosis-service").getServiceId();
+        String url = "http://"+uri.toString() + "/diagnosis/patient/getDiabetesReport";
+
+        ResponseEntity<Object> responseEntity = restTemplate.exchange(url,HttpMethod.GET,entity, Object.class);
+        Object res  = responseEntity.getBody();
+        return res;
+    }
+    
+
+    @PostMapping("/stroke-diagnosis")
+    @HystrixCommand(fallbackMethod = "getStrokeDiagnosisFB")
+    public String getStrokeDiagnosis(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+
+        String uri = loadBalancer.choose("diagnosis-service").getServiceId();
+        String url = "http://"+uri.toString() + "/diagnosis/patient/getStrokeDiagnosis";
+
+        ResponseEntity<String> result = restTemplate
+                .postForEntity(url, entity, String.class);
+
+        return result.getBody();
+    }
+
+    @GetMapping("/get-stroke-record") //hystrix
+    @Cacheable(value = "strokeRecord")
+    @HystrixCommand(fallbackMethod = "getStrokeRecordFB")
+    public Object getStrokeRecord(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("diagnosis-service").getServiceId();
+        String url = "http://"+uri.toString() + "/diagnosis/patient/getStrokeReport";
+
+        ResponseEntity<Object> responseEntity = restTemplate.exchange(url,HttpMethod.GET,entity, Object.class);
         Object res  = responseEntity.getBody();
         return res;
     }
@@ -558,5 +634,21 @@ public class CatalogController {
 
     }
 
-    
+    public String getDiabetesDiagnosisFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+    }
+
+    public Object getDiabetesRecordFB(@RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+    }   
+
+    public String getStrokeDiagnosisFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+    }
+    public Object getStrokeRecordFB(@RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+
+    }
+
+     
 }

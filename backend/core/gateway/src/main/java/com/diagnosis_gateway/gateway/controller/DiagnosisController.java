@@ -64,6 +64,13 @@ public class DiagnosisController {
         Integer outcome = patient[0].intValue();
 
         diabetesService.fetchAndSaveOutcomes(id, outcome, patient[1]);
+
+        NotificationEmail email = diabetesService.sendMailIfPatient(diabetes, outcome, patient[1]);
+        System.out.println("GOOOD to GO!");
+        String mail_uri = loadBalancer.choose("mailing-service").getServiceId();
+        String mail_url = "http://"+mail_uri.toString() + "/sendmail";
+        System.out.println(mail_url);
+        ResponseEntity<String> mailResponseEntity = restTemplate.postForEntity(mail_url,email,String.class);        
         
         return patient;
 
@@ -75,7 +82,7 @@ public class DiagnosisController {
         return diabetesService.getPatientDiabetesReport();
     }
 
-    @PostMapping("patient/getStrokeDiagnosis/")
+    @PostMapping("patient/getStrokeDiagnosis")
     public Double[] saveAndGetDiagnosis(@RequestBody Stroke body){
 
         String status = strokeService.save(body);

@@ -3,6 +3,7 @@ package com.medication.medicationSystem.controller;
 import java.util.List;
 
 import com.medication.medicationSystem.model.AssignMedication;
+import com.medication.medicationSystem.model.NotificationEmail;
 import com.medication.medicationSystem.repository.MedicationRepository;
 import com.medication.medicationSystem.service.AssignMedicationService;
 
@@ -36,9 +37,17 @@ public class MedicationController {
     public String createDoc(@RequestBody AssignMedication assignMedication){
         System.out.println(assignMedication.getDocId());
         assignMedicationService.createDoc(assignMedication);
-        return "Saved";
+
+        NotificationEmail email = assignMedicationService.sendMailIfPatient(assignMedication);
+        System.out.println("GOOOD to GO!");
+        String mail_uri = loadBalancer.choose("mailing-service").getServiceId();
+        String mail_url = "http://"+mail_uri.toString() + "/sendmail";
+        System.out.println(mail_url);
+        ResponseEntity<String> mailResponseEntity = restTemplate.postForEntity(mail_url,email,String.class);
+        
+        return "Saved"; // send mail to patient
     }
-    @GetMapping("/get")
+    @GetMapping("/get") // both doc and patient
     public List<AssignMedication> getMedication(){
         return assignMedicationService.getAll();
     }

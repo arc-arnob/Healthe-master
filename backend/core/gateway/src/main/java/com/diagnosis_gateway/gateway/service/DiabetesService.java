@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.diagnosis_gateway.gateway.Repository.DiabetesRepository;
 import com.diagnosis_gateway.gateway.model.Diabetes;
+import com.diagnosis_gateway.gateway.model.NotificationEmail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +18,9 @@ public class DiabetesService {
     private AuthService authService;
     @Autowired
     private DiabetesRepository diabetesRepo;
+
+    private String tbs_outcome;
+    private String tbs_proba;
 
     public String save(Diabetes diabetes){
         String username = authService.getCurrentUser().getUsername();
@@ -34,6 +38,10 @@ public class DiabetesService {
         diabetes.setOutcome(outcome);
         diabetes.setProbability(probability);
         diabetesRepo.save(diabetes);
+
+        tbs_outcome = (outcome == 1) ? "Positive" : "Negative";
+        tbs_proba = probability.toString().substring(0,6);
+
         return "Data Saved in db";
     }
 
@@ -46,5 +54,15 @@ public class DiabetesService {
     public String saveByDoc(Diabetes diabetes) {
         diabetesRepo.save(diabetes);
         return "Saved Successfully";
+    }
+
+    public NotificationEmail sendMailIfPatient(Diabetes body, Integer outcome, Double probability) {
+        String msg = "Hey "+authService.getCurrentUser().getUsername()+" your report came out to be "+tbs_outcome+" and chances of having it is "+tbs_proba;
+        NotificationEmail email = new NotificationEmail();
+        email.setRecipient(authService.getCurrentUser().getEmail());
+        email.setSubject("Your Diabetes Report");
+        email.setBody(msg);
+        return email;
+        // Extension: provide proper reports with dos and dont's and everything.
     }
 }

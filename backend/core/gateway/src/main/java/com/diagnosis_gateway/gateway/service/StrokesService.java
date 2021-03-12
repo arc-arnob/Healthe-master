@@ -19,6 +19,9 @@ public class StrokesService {
     @Autowired
     private StrokeRepository strokeRepo;
 
+    private String tbs_outcome;
+    private String tbs_proba;
+
     
     // private NotificationEmail email;
 
@@ -36,6 +39,10 @@ public class StrokesService {
         stroke.setStroke(outcome);
         stroke.setProbability(probability);
         strokeRepo.save(stroke);
+
+        tbs_outcome = (outcome == 1) ? "Positive" : "Negative";
+        tbs_proba = probability.toString().substring(0,6);
+
         return "Data Saved in db";
     }
 
@@ -49,16 +56,14 @@ public class StrokesService {
         strokeRepo.save(body);
         return "Success";
     }
-    // resume here
+    
     public NotificationEmail sendMailIfPatient(Stroke body, Integer outcome, Double probability) {
-        String msg = "Hey "+authService.getCurrentUser().getUsername()+" your report are as follows: ";
+        String msg = "Hey "+authService.getCurrentUser().getUsername()+" your report came out to be "+tbs_outcome+" and chances of having it is "+tbs_proba;
         NotificationEmail email = new NotificationEmail();
         email.setRecipient(authService.getCurrentUser().getEmail());
         email.setSubject("Your Stroke Report");
         email.setBody(msg);
         return email;
-
-
     }
 
     
