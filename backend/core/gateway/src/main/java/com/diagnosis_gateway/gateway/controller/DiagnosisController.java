@@ -3,12 +3,15 @@ package com.diagnosis_gateway.gateway.controller;
 import java.util.List;
 
 import com.diagnosis_gateway.gateway.dto.DiabetesPYDto;
+import com.diagnosis_gateway.gateway.dto.HeartAttackDto;
 import com.diagnosis_gateway.gateway.dto.StrokeDto;
 import com.diagnosis_gateway.gateway.model.Diabetes;
+import com.diagnosis_gateway.gateway.model.HeartAttack;
 import com.diagnosis_gateway.gateway.model.NotificationEmail;
 import com.diagnosis_gateway.gateway.model.Stroke;
 import com.diagnosis_gateway.gateway.service.AuthService;
 import com.diagnosis_gateway.gateway.service.DiabetesService;
+import com.diagnosis_gateway.gateway.service.HeartAttackService;
 import com.diagnosis_gateway.gateway.service.StrokesService;
 import com.netflix.ribbon.proxy.annotation.Http.HttpMethod;
 
@@ -31,6 +34,9 @@ public class DiagnosisController {
 
     @Autowired
     private StrokesService strokeService;
+
+    @Autowired
+    private HeartAttackService heartService;
 
     @Autowired
     LoadBalancerClient loadBalancer;
@@ -186,6 +192,55 @@ public class DiagnosisController {
         Double probability = patient[1];
         strokeService.fetchAndSaveOutcomes(id, outcome, probability);
         return patient;
+    }
+
+
+    // Heart Attack
+    
+    @PostMapping("patient/getHeartDiagnosis")
+    public Double[] saveAndGetAttackDiagnosis(@RequestBody HeartAttack body){
+
+        String status = heartService.save(body);
+        Integer id = body.getId();
+        
+        // Can use mapstruct
+        HeartAttackDto dto = new HeartAttackDto();
+        dto.setAge(body.getAge());
+        dto.setSex(body.getSex());
+        dto.setCp(body.getCp());
+        dto.setTrestbps(body.getTrestbps());
+        dto.setChol(body.getChol());
+        dto.setFbs(body.getFbs());
+        dto.setRestecg(body.getRestecg());
+        dto.setThalach(body.getThalach());
+        dto.setExang(body.getExang());
+        dto.setOldpeak(body.getOldpeak());
+        dto.setSlope(body.getSlope());
+        dto.setCa(body.getCa());
+        dto.setThal(body.getThal());
+
+        String uri = loadBalancer.choose("heartattack-app").getServiceId();
+        String url = "http://"+uri.toString() + "/heartapi/status/";
+        System.out.println(url);
+        ResponseEntity<Double[]> responseEntity = restTemplate.postForEntity(url,dto,Double[].class);
+        Double[] patient = responseEntity.getBody();
+        Integer outcome = patient[0].intValue();
+        Double probability = patient[1];
+        heartService.fetchAndSaveOutcomes(id, outcome, probability);
+
+        NotificationEmail email = heartService.sendMailIfPatient(body, outcome, probability);
+        System.out.println("GOOOD to GO!");
+        String mail_uri = loadBalancer.choose("mailing-service").getServiceId();
+        String mail_url = "http://"+mail_uri.toString() + "/sendmail";
+        System.out.println(mail_url);
+        ResponseEntity<String> mailResponseEntity = restTemplate.postForEntity(mail_url,email,String.class);
+        return patient;
+    }
+
+    @GetMapping("/patient/getHeartReport")
+    public List<HeartAttack> getPatientHeartReport(){
+        
+        return heartService.getPatientHeartReport();
     }
 
 }

@@ -548,6 +548,41 @@ public class CatalogController {
         return res;
     }
 
+
+    // Heart Attack
+    @PostMapping("/heart-diagnosis")
+    @HystrixCommand(fallbackMethod = "getHeartDiagnosisFB")
+    public String getHeartDiagnosis(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+
+        String uri = loadBalancer.choose("diagnosis-service").getServiceId();
+        String url = "http://"+uri.toString() + "/diagnosis/patient/getHeartDiagnosis";
+
+        ResponseEntity<String> result = restTemplate
+                .postForEntity(url, entity, String.class);
+
+        return result.getBody();
+    }
+
+    @GetMapping("/get-heart-record") //hystrix
+    @Cacheable(value = "heartRecord")
+    @HystrixCommand(fallbackMethod = "getHeartRecordFB")
+    public Object getHeartRecord(@RequestHeader(value = "Authorization") String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        String uri = loadBalancer.choose("diagnosis-service").getServiceId();
+        String url = "http://"+uri.toString() + "/diagnosis/patient/getHeartReport";
+
+        ResponseEntity<Object> responseEntity = restTemplate.exchange(url,HttpMethod.GET,entity, Object.class);
+        Object res  = responseEntity.getBody();
+        return res;
+    }
+
    
 
     
@@ -646,6 +681,15 @@ public class CatalogController {
         return "oops Something went wrong";
     }
     public Object getStrokeRecordFB(@RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+
+    }
+
+    public String getHeartDiagnosisFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+        return "oops Something went wrong";
+    }
+
+    public Object getHeartRecordFB(@RequestHeader(value = "Authorization") String token){
         return "oops Something went wrong";
 
     }
