@@ -5,3 +5,6 @@ javax.persistant error: hibernate-validator: https://stackoverflow.com/questions
 
 http://localhost:8088/diagnosis/patient/getdiagnosis
 http://127.0.0.1:8000/diabetesapi/status/
+
+
+mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8085

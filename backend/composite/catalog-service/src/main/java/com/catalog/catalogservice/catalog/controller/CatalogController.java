@@ -417,6 +417,7 @@ public class CatalogController {
     // Medication Controllers
     // create-medication -post
     @PostMapping("/create-medication") //hystrix
+    @HystrixCommand(fallbackMethod = "createMedicFB")
     public String createMedic(@RequestBody AssignMedication dto, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -432,7 +433,8 @@ public class CatalogController {
     // get medication - get by patient id .
     //cache put
     @GetMapping("/get-medication") //hystrix
-    public AssignMedication[] getMedic(@RequestHeader(value = "Authorization") String token){
+    @HystrixCommand(fallbackMethod = "getMedicFB")
+    public Object getMedic(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", token);
@@ -447,6 +449,7 @@ public class CatalogController {
     // get-nearby stores -get
     // cache put
     @GetMapping("/get-stores") //hystrix
+    @HystrixCommand(fallbackMethod = "getNearByFB")
     public Object getNearBy(@RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -462,6 +465,7 @@ public class CatalogController {
     
     //cache evict
     @DeleteMapping("/handover-medicine/{patId}") //hystrix
+    @HystrixCommand(fallbackMethod = "getMedicFB")
     public Object handOverMedicine(@PathVariable String patId, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -692,6 +696,17 @@ public class CatalogController {
     public Object getHeartRecordFB(@RequestHeader(value = "Authorization") String token){
         return "oops Something went wrong";
 
+    }
+
+    public String createMedicFB(@RequestBody AssignMedication dto, @RequestHeader(value = "Authorization") String token){
+        return "Cannot Create Prescription, please try again in few seconds";
+    }
+
+    public Object getMedicFB(@RequestHeader(value = "Authorization") String token){
+        return "Cannot Fetch Prescription, try again in few seconds";
+    }
+    public Object getNearByFB(@RequestHeader(value = "Authorization") String token){
+        return "Oops, Cannot search for nearby stores";
     }
 
      
