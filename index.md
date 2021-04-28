@@ -29,5 +29,7 @@ Below listed are all the deliverabeles of the project:
 </div>
 
 ## Infrasturture
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/tools.png" class="img-responsive" alt="" height = 250px width = 250px> 
+</div>
 
-![Infra](https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/tools.png)
