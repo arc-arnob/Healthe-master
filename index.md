@@ -25,11 +25,11 @@ Below listed are all the deliverabeles of the project:
 
 ## Layered Architecture
 <div>
-    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/architecturediav3.png" class="img-responsive" alt=""> 
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/architecturediav3.png" class="img-responsive" alt="" height = 600px width = 650px> 
 </div>
 
 ## Infrasturture
 <div>
-    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/tools.png" class="img-responsive" alt="" height = 250px width = 250px> 
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/tools.png" class="img-responsive" alt="" height = 600px width = 650px> 
 </div>
 
