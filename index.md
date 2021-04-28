@@ -27,10 +27,12 @@ Below listed are all the deliverabeles of the project:
 <div>
     <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/architecturediav3.png" class="img-responsive" alt="" height = 600px width = 650px> 
 </div>
-As depicted in above figure the architecture is divided into 3 sections each having its own set of responsibilities:
-        1. API Service layer : responsible for performing authorization and load balancing for next level of processes.
-        2. Composite Layer : responsible for performing abstraction and acts as a single point of contact for the external requests. It also manages circuit breaking process to         increase fault tolerance
-        3. Core Layer: consists of core services supported by the system which includes managing cache, database and business logic.
+
+1. As depicted in above figure the architecture is divided into 3 sections each having its own set of responsibilities :
+
+    - API Service layer : responsible for performing authorization and load balancing for next level of processes.
+    - Composite Layer : responsible for performing abstraction and acts as a single point of contact for the external requests. It also manages circuit breaking process to     increase fault tolerance
+    - Core Layer: consists of core services supported by the system which includes managing cache, database and business logic.
 
 ## Infrasturture
 <div>
