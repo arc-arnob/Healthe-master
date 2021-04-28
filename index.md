@@ -30,4 +30,4 @@ Below listed are all the deliverabeles of the project:
 
 ## Infrasturture
 
-![Infra](https://github.com/arc-arnob/Healthe-master/blob/main/images/tools.png)
+![Infra](https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/tools.png)
