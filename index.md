@@ -24,8 +24,12 @@ Below listed are all the deliverabeles of the project:
     - **Catalog Service** : This API acts as a gateway to the entire system and only authenticated requests can pass through this gateway.
 
 ## Layered Architecture
-<img src="https://github.com/arc-arnob/Healthe-master/blob/main/images/architecturediav3.png" class="img-responsive" alt=""> </div>
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/architecturediav3.png" class="img-responsive" alt="" height = 600px width = 650px> 
+</div>
 
 ## Infrasturture
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/tools.png" class="img-responsive" alt="" height = 600px width = 650px> 
+</div>
 
-![Infra](https://github.com/arc-arnob/Healthe-master/blob/main/images/tools.png)
