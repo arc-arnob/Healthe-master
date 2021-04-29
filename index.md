@@ -342,20 +342,3 @@ Below listed are all the deliverabeles of the project:
 
 <br>
 
-**Json Format Example**
-```javascript
-{
-    "doc_name":"Ikala Chuhioq",
-    "doc_phone":"8717123455",
-    "doc_address":"Valentus, Gaur City mall CR",
-    "dateOfStarting":"1978-09-09",
-    "doc_gender":"M",
-    "doc_dob":"1978-09-09",
-    "doc_settlePoint":"22.2323,45.4433",
-    "doc_description": "Did MBBS and MD from Boston, Heart specialist",
-    "docSpecId": 1,
-    "clinicId": 1
-}
-```
-<br>
-
