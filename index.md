@@ -43,7 +43,7 @@ Below listed are all the deliverabeles of the project:
 The Schema configuration is simulated as per the following diagram below :
 
 <div>
-    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/ER%20Diagram%20(1).png" class="img-responsive" alt="" height = 600px width = 1000px> 
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/ER%20Diagram%20(1).png" class="img-responsive" alt="" > 
 </div>
 
 Note : Word `Simulated` is used since basic SQL constraints are not possible on database per service architecture.
@@ -53,7 +53,7 @@ Note : Word `Simulated` is used since basic SQL constraints are not possible on 
 Below is Context Diagram for better understanding of the overall working of the system,
 
 <div>
-    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/dfd_2.png" class="img-responsive" alt="" height = 1000px width = 1000px> 
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/dfd_2.png" class="img-responsive" alt=""> 
 </div>
 
 ## Brief about actual database configuration
