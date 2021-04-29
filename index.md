@@ -559,7 +559,7 @@ Below listed are all the deliverabeles of the project:
 
 ## GATEWAYS
 
-Service |	EndPoint
+*Service* |	*EndPoint*
 ------- | ------- 
 auth-service    | /auth/**
 forum-service | /forum/**
