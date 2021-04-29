@@ -743,6 +743,8 @@ public Object getNearBy(@RequestHeader(value = "Authorization") String token){
 
 # Run on your PC without Docker
 
+`NOTE` : You need to configure your own jks files for communication level security in application.properties file whereever needed.
+
 ## What Will You Build
 You will build a web application that is Oauth2 enabled.
 
