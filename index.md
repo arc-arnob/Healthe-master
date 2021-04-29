@@ -304,11 +304,58 @@ Below listed are all the deliverabeles of the project:
 /doctor-delete |	DELETE	| Deletes doctor's profile
 /doctor-schedule |	GET	| Returns Doctor schedule to avoid overlapping 
 
+<br>
 
+# Store Locator API
 
+## Purpose
+* This API will enable user to implement appointment near geo search. It is stand-alone service with independent endpoints.
+* It does not require `Authorization and Authentication API` and is accesscible to anyone.
 
+## Endpoints
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/booking/allmarkers |	GET	| Returns coordinates of all the stores.
+/near/{latitude:.+},{longitude:.+} |	GET	| Returns coordinates of all the stores near given latitude and longitude
 
 <br>
 
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/create | POST	| Creates an appointment to pharamacy stores with user coordinates.
 
+**Json Format Example**
+```javascript
+{
+    "storeName":"books testing",
+    "streetName":"NEw Street 1 ...",
+    "location": {
+      "type": "Point",
+      "coordinates": [12.1212, -45.2331]
+    }
+}
+
+
+
+```
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "doc_name":"Ikala Chuhioq",
+    "doc_phone":"8717123455",
+    "doc_address":"Valentus, Gaur City mall CR",
+    "dateOfStarting":"1978-09-09",
+    "doc_gender":"M",
+    "doc_dob":"1978-09-09",
+    "doc_settlePoint":"22.2323,45.4433",
+    "doc_description": "Did MBBS and MD from Boston, Heart specialist",
+    "docSpecId": 1,
+    "clinicId": 1
+}
+```
+<br>
 
