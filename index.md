@@ -597,4 +597,39 @@ diagnosis-service | /diagnosis/**
 <div>
     <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/fault_tol_4.png" class="img-responsive" alt=""> 
 </div>
+
 # Explanation
+* A service client should invoke a remote service via a proxy that functions in a similar fashion to an electrical circuit breaker. When the number of consecutive failures crosses a threshold, the circuit breaker trips, and for the duration of a timeout period all attempts to invoke the remote service will fail immediately. After the timeout expires the circuit breaker allows a limited number of test requests to pass through. If those requests succeed the circuit breaker resumes normal operation. Otherwise, if there is a failure the timeout period begins again.
+
+# Implementation
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+
+
+@SpringBootApplication
+@EnableCircuitBreaker
+@EnableHystrixDashboard
+public class CatalogServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(CatalogServiceApplication.class, args);
+	}
+
+}
+
+```
+<br>
+
+application.porperties Configuration :
+
+```
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=2000
+management.endpoints.web.exposure.include=hystrix.stream
+hystrix.dashboard.proxyStreamAllowList=*
+```
+
+
