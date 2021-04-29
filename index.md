@@ -81,23 +81,16 @@ Below listed are all the deliverabeles of the project:
 * In order to make it work you need implement `Authorization and Authentication API`.
 ### Endpoints
 
-Service |	EndPoint |	Method |	Description
-------- | -------  | ------- | -----------
-product-service-api | /movies/{urlId} |	GET	| Return list of all movies
-product-service-api | /userratings/{urlId} |	GET	| Return list of all movies of a particular user
-product-service-api | /addratings/{urlId} |	POST	| Sends rating of a particular user of the movie
-product-service-api | /addmovies/{urlId} |	POST	| Adds new Movie to the database
-movie-catalog-service |	/catalog/showmovies |	GET	| Return List of all movies
-movie-catalog-service |	/catalog/showratedmovie/{userId} |	GET	| Return List of all rated movies with rating
-movie-catalog-service |	/catalog/ratemovie |	POST	| Adds Rating to List of all rated movies with rating
-movie-catalog-service |	/catalog/addmovie |	POST	| Adds Movie to List of all movies
-movie-service-api |	/movieservice/allmovies |	GET	| Returns List of all movies
-movie-service-api |	/movieservice/movie/{movieId} |	GET	| Returns List of all movies with given Id
-movie-service-api |	/movieservice/addmovie |	POST	| Posts details of a movie to be added to database
-movie-service-api |	/movieservice/updatemovie/{movieId} |	POST	| Posts details of a movie to be added/updated to database
-movie-service-api |	/movieservice/deleteMovie/{movieId} |	POST	| Posts details of a movie to be deleted from database
-rating-service-api |	/rating/service/deleteMovie/{movieId} |	POST	| Posts details of a movie to be deleted from database
-rating-service-api |	/rating/allratings/{userId} |	GET	| Get List of all rated movies
-rating-service-api |	/rating/addrating |	POST | Post a new rating to the database
-rating-service-api |	/rating/updaterating/{ratingId} |	POST | Update any exisiting Rating information
-rating-service-api |	/rating/deleterating/{ratingId} |	POST | Delete any exisiting Rating information
+EndPoint |	Method |	Description
+-------  | ------- | -----------
+/subreddit-create |	POST	| Creates a new thread
+
+EndPoint |	Method |	Description
+-------  | ------- | -----------
+/post-create |	POST	| Return list of all movies of a particular user
+
+EndPoint |	Method |	Description
+-------  | ------- | -----------
+/addratings/{urlId} |	POST	| Sends rating of a particular user of the movie
+
+
