@@ -437,6 +437,7 @@ Below listed are all the deliverabeles of the project:
 * It requires `Authorization and Authentication API` to be implemented prior to use.
 
 ## Endpoints
+
 *Endpoint* |	*Method* |	*Description*
 -------  | ------- | -----------
 /create-medication | POST  | Creates Precription and stores with User Location
