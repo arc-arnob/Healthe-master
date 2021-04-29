@@ -430,4 +430,47 @@ Below listed are all the deliverabeles of the project:
 <br>
 
 
+# Diagnosis API
+
+## Purpose
+* This API will enable user to call Django Server running Machine Learning Models to performs diagnosis on the input reading. It is stand-alone service with independent endpoints.
+* It requires `Authorization and Authentication API` to be implemented prior to use.
+
+## Endpoints
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/create-medication | POST  | Creates Precription and stores with User Location
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "patId":"testuser4",
+    "coordinates":[12.1212,-45.2321],
+    "medication":[{
+            "medName":"paracitalom",
+            "time":"morning"
+        },
+        {
+            "medName":"cyrus",
+            "time":"night" 
+        },
+        {
+            "medName":"cyrus_19191",
+            "time":"night" 
+        }
+    ]
+}
+```
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/get-medication | GET  | Returns Medication record of patient
+/get-stores| GET  | Returns nearby stores to user location
+/handover-medicines/{pat-id} | DELETE  | Deletes patient record from to be picked up medicines.
+
+<br>
+
 
