@@ -473,15 +473,18 @@ Below listed are all the deliverabeles of the project:
 
 <br>
 
-### Support APIs
-
-### Authentication and Authorization API
+# Support APIs
+ 
+# Authentication and Authorization API
 
 ## Purpose
-* Multiple services put together forms an application each ofwhich are independent of others. Hence securing the system as a whole is not enough and poses a risk of whole system compromise if even just one service is compromised. Hence to address this issue, I implemented JWT based authentication and authorization for each μS that will allow requests after authenticating it from centrally runningauthentication and authorization server
+* Multiple services put together forms an application each of which are independent of others. Hence securing the system as a whole is not enough and poses a risk of whole system compromise if even just one service is compromised. Hence to address this issue, I implemented JWT based authentication and authorization for each μS that will allow requests after authenticating it from centrally runningauthentication and authorization server
 
 <div>
     <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/security_accesstoken.png" class="img-responsive" alt=""> 
 </div>
+
+## Explanation
+* When user logs in using credentials,  it is encrypted and is alwaysattached with the payload while requests are made. It the responsibility of each serviceto decrypt the credentials and verify it against the centrally running authorization andauthentication server and allow only valid calls.
 
 
