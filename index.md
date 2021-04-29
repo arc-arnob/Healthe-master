@@ -741,4 +741,19 @@ public Object getNearBy(@RequestHeader(value = "Authorization") String token){
 
 ```
 
+# Run on your PC without Docker
+
+## What Will You Build
+You will build a web application that is Oauth2 enabled.
+
+## What you will need
+
+* A favorite text editor or IDE
+* JDK 1.8 or later
+* Gradle 4+ or Maven 3.2+
+
+## To clone and the project do the following
+* Download and unzip the source repository for this guide, or clone it using Git: git clonehttps://github.com/arc-arnob/Healthe-master.git
+* cd to /target folders of all the spring boot applications and run: mvnw spring-boot:run
+
 
