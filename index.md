@@ -756,4 +756,119 @@ You will build a web application that is Oauth2 enabled.
 * Download and unzip the source repository for this guide, or clone it using Git: `git clone https://github.com/arc-arnob/Healthe-master.git`
 * cd to /target folders of all the spring boot applications and run: `mvnw spring-boot:run`
 
+## Configuring Database
+* File Location : `backend/support/jwt-auth-service/jwt_auth_service/src/main/resources/application.properties`
+```sql
 
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.datasource.url =jdbc:mysql://localhost:3306/<your database>
+spring.datasource.username = <username>
+spring.datasource.password = <password>
+spring.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.show-sql=true
+
+#hibernate
+#spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.show-sql=true
+```
+<br>
+
+* File Location : `backend/core/forum/src/main/resources/application.properties`
+
+```sql
+
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.datasource.url =jdbc:mysql://localhost:3306/<Your Database>
+spring.datasource.username = root
+spring.datasource.password = <password>
+spring.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.show-sql=true
+
+```
+<br>
+
+* File Location : `/backend/core/gateway/src/main/resources/application.properties`
+
+```sql
+spring.user.jpa.database-platform=org.hibernate.dialect
+.MySQL8Dialect
+spring.user.datasource.jdbcUrl= jdbc:mysql://localhost:3306/user-db
+spring.user.datasource.username = root
+spring.user.datasource.password = <password>
+spring.user.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
+spring.app.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.app.datasource.jdbcUrl=jdbc:mysql://localhost:3306/diagnosis-service
+spring.app.datasource.username = <username>
+spring.app.datasource.password = <password>
+spring.app.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
+
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.database=default
+spring.jpa.show-sql=true
+
+```
+<br>
+
+* File Location : `/backend/core/medicationSystem/medSystem/src/main/resources/application.properties`
+
+```sql
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=Medication
+spring.data.mongodb.repositories.enabled=true
+# mongod --dbpath "F:\workspace\VS workspaces\Healthe\backend\support\
+Mongo_data\med\data\db"
+
+spring.user.jpa.database-platform=org.hibernate
+.dialect.MySQL8Dialect
+spring.user.datasource.jdbcUrl =jdbc:mysql://
+localhost:3306/user-db
+spring.user.datasource.username = root
+spring.user.datasource.password = root123
+spring.user.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
+
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.database=default
+spring.jpa.show-sql=true
+```
+
+<br>
+
+
+* File Location : `/backend/core/patientBooking/booking/src/main/resources/application.properties`
+
+```sql
+spring.user.jpa.database-platform=org.hibernate.dialect
+.MySQL8Dialectspring.user.datasource.jdbcUrl=
+jdbc:mysql://localhost:3306/reddit-clone
+spring.user.datasource.username = root
+spring.user.datasource.password = <password>
+spring.user.datasource.driver-class-name = 
+com.mysql.cj.jdbc.Driver
+
+spring.app.jpa.database-platform=org.hibernate.dialect
+.MySQL8Dialectspring.app.datasource.jdbcUrl=
+jdbc:mysql://localhost:3306/appointment-service
+spring.app.datasource.username = root
+spring.app.datasource.password = <password>
+spring.app.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.database=default
+spring.jpa.show-sql=true
+```
+<br>
+
+* File Location : `/backend/core/storeLocator/booking_per_user/src/main/resources/application.properties`
+
+```sql
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=bookings
+spring.data.mongodb.repositories.enabled=true
+```
