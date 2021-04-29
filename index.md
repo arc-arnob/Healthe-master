@@ -753,7 +753,7 @@ You will build a web application that is Oauth2 enabled.
 * Gradle 4+ or Maven 3.2+
 
 ## To clone and the project do the following
-* Download and unzip the source repository for this guide, or clone it using Git: git clonehttps://github.com/arc-arnob/Healthe-master.git
-* cd to /target folders of all the spring boot applications and run: mvnw spring-boot:run
+* Download and unzip the source repository for this guide, or clone it using Git: `git clone https://github.com/arc-arnob/Healthe-master.git`
+* cd to /target folders of all the spring boot applications and run: `mvnw spring-boot:run`
 
 
