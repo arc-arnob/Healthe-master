@@ -421,4 +421,13 @@ Below listed are all the deliverabeles of the project:
 
 <br>
 
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/get-heart-record | GET  | Returns stored Diagonis Report
+/get-diabetes-record | GET  | Returns stored Diagonis Report
+/get-stroke-record | GET  | Returns stored Diagonis Report
+
+<br>
+
+
 
