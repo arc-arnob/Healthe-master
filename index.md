@@ -86,6 +86,7 @@ Below listed are all the deliverabeles of the project:
 /subreddit-create |	POST	| Creates a new thread
 
 <br>
+
 **Json Format Example**
 ```javascript
 {
@@ -95,11 +96,13 @@ Below listed are all the deliverabeles of the project:
 }
 ```
 <br>
+
 *Endpoint* |	*Method* |	*Description*
 -------  | ------- | -----------
 /post-create |	POST	| Creates a post under a thread
 
 <br>
+
 **Json Format Example**
 ```javascript
 {
@@ -110,11 +113,13 @@ Below listed are all the deliverabeles of the project:
 }
 ```
 <br>
+
 *Endpoint* |	*Method* |	*Description*
 -------  | ------- | -----------
 /create-comment |	POST	| Creates a comment under a post
 
 <br>
+
 **Json Format Example**
 ```javascript
 {
@@ -123,6 +128,7 @@ Below listed are all the deliverabeles of the project:
 }
 ```
 <br>
+
 *Endpoint* |	*Method* |	*Description*
 -------  | ------- | -----------
 /userposts | GET    | Returns all the posts created by a user
