@@ -578,4 +578,24 @@ diagnosis-service | /diagnosis/**
 * URI for Diagnosis API : http://localhost:8088
 * URI for TOM TOM (Third party) API : http://localhost:8087
 
+# Microservice Tenents
 
+## Circuit Breaker (Fault Tolerance)
+
+### Purpose
+* Services sometimes collaborate when handling requests. When one service synchronously invokes another there is always the possibility that the other service is unavailable or is exhibiting such high latency it is essentially unusable. Precious resources such as threads might be consumed in the caller while waiting for the other service to respond. This might lead to resource exhaustion, which would make the calling service unable to handle other requests. The failure of one service can potentially cascade to other services throughout the application.
+* How to prevent a network or service failure from cascading to other services?
+
+<div class="row">
+  <div class="column">
+    <img src="img_snow.jpg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="img_forest.jpg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="img_mountains.jpg" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+# Explanation
