@@ -86,7 +86,7 @@ Below listed are all the deliverabeles of the project:
 /subreddit-create |	POST	| Creates a new thread
 
 
-**Json Format**
+**Json Format Example**
 ```javascript
 {
     "name":"Thread Name",
@@ -94,5 +94,44 @@ Below listed are all the deliverabeles of the project:
     "numberOfPosts":0
 }
 ```
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/post-create |	POST	| Creates a post under a thread
+
+
+**Json Format Example**
+```javascript
+{
+    "subredditName":"Thread Name",
+    "postName":"This is under First Subreddit",
+    "url":"www.firstSubreddit.com",
+    "description":"This is description post first seventh Subreddit"
+}
+```
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/create-comment |	POST	| Creates a comment under a post
+
+
+**Json Format Example**
+```javascript
+{
+    "postId":1,
+    "text":"This is a third comment for postId 1 under 1 subreddit"
+}
+```
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/userposts | GET    | Returns all the posts created by a user
+
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/post-thread/{thread-id} |	GET	| Gets all posts under the thread with given id 
+
+
 
 
