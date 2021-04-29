@@ -713,7 +713,7 @@ eureka.instance.hostname=localhost
 * Algorithm for load balancing: Round Robin
 * Type of Load balancing: Hybrid Load Balancing
 * In hybrid load balancing technique used in this project all the consumers and prosumers (one that produces result as well as requires input ) are implemented with theirown load balancer 
-* 
+
 
 <div>
     <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/hybrid_lb_1.png" class="img-responsive" alt=""> 
