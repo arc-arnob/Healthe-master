@@ -632,4 +632,79 @@ management.endpoints.web.exposure.include=hystrix.stream
 hystrix.dashboard.proxyStreamAllowList=*
 ```
 
+## Service Registry and Discovery
+
+### Purpose
+
+* Services typically need to call one another. In a monolithic application, services invoke one another through language-level method or procedure calls. In a traditional distributed system deployment, services run at fixed, well known locations (hosts and ports) and so can easily call one another using HTTP/REST or some RPC mechanism. However, a modern microservice-based application typically runs in a virtualized or containerized environments where the number of instances of a service and their locations changes dynamically.
+* How does the client of a service - the API gateway or another service - discover the location of a service instance?
+
+### Problems
+* Each instance of a service exposes a remote API such as HTTP/REST, etc. at a particular location (host and port)
+* The number of services instances and their locations changes dynamically.
+* Virtual machines and containers are usually assigned dynamic IP addresses.
+* The number of services instances might vary dynamically.
+
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/sd3.png" class="img-responsive" alt=""> 
+</div>
+
+### Implementation Example
+* **Service Discovery Registry**
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
+@SpringBootApplication
+@EnableEurekaServer
+public class ServicedisApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ServicedisApplication.class, args);
+	}
+
+}
+
+```
+* application.properties Configuration
+```
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+eureka.client.service-url.default-zone=http://localhost:8761/eureka/
+eureka.instance.hostname=localhost
+spring.cloud.loadbalancer.ribbon.enabled = false
+```
+
+
+* **Service Discovery Client**
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.scheduling.annotation.EnableAsync;
+
+
+@SpringBootApplication
+@EnableAsync
+@EnableEurekaClient
+public class RedditApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(RedditApplication.class, args);
+	}
+
+}
+
+```
+
+* application.properties Configuration
+```
+eureka.client.register-with-eureka=true
+eureka.client.fetch-registry=true
+eureka.client.service-url.default-zone=http://localhost:8761/eureka/
+eureka.instance.hostname=localhost
+```
+
 
