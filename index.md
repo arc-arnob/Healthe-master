@@ -74,23 +74,24 @@ Below listed are all the deliverabeles of the project:
 3. **Gateway Services**
     - **Catalog Service** : This API acts as a gateway to the entire system and only authenticated requests can pass through this gateway.
 
-## Forum API 
+# Forum API 
 
-### Purpose
+## Purpose
 * This API will enable user to implement forum service in any project. It is stand-alone service with independent endpoints.
 * In order to make it work you need implement `Authorization and Authentication API`.
-### Endpoints
+## Endpoints
 
 EndPoint |	Method |	Description
 -------  | ------- | -----------
 /subreddit-create |	POST	| Creates a new thread
 
-EndPoint |	Method |	Description
--------  | ------- | -----------
-/post-create |	POST	| Return list of all movies of a particular user
-
-EndPoint |	Method |	Description
--------  | ------- | -----------
-/addratings/{urlId} |	POST	| Sends rating of a particular user of the movie
+**Json Format**
+```javascript
+{
+    "name":"Thread Name",
+    "description":"This is First Thread",
+    "numberOfPosts":0
+}
+```
 
 
