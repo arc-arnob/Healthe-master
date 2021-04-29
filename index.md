@@ -132,29 +132,9 @@ Below listed are all the deliverabeles of the project:
 *Endpoint* |	*Method* |	*Description*
 -------  | ------- | -----------
 /userposts | GET    | Returns all the posts created by a user
-
-<br>
-
-*Endpoint* |	*Method* |	*Description*
--------  | ------- | -----------
 /post-thread/{thread-id} |	GET	| Gets all posts under the thread with given id 
-
-<br>
-
-*Endpoint* |	*Method* |	*Description*
--------  | ------- | -----------
 /thread-list |	GET	| Gets all threads 
-
-<br>
-
-*Endpoint* |	*Method* |	*Description*
--------  | ------- | -----------
 /thread/{thread-id} |	GET	| Gets threads information with given id 
-
-<br>
-
-*Endpoint* |	*Method* |	*Description*
--------  | ------- | -----------
 /vote |	POST	| Creates a UPVOTE or DOWNVOTE for a post
 
 <br>
