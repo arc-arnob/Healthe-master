@@ -141,4 +141,60 @@ Below listed are all the deliverabeles of the project:
 
 <br>
 
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/thread-list |	GET	| Gets all threads 
+
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/thread/{thread-id} |	GET	| Gets threads information with given id 
+
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/vote |	POST	| Creates a UPVOTE or DOWNVOTE for a post
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "voteType":"UPVOTE",
+    "postId":"1"
+}
+```
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/post-comment/{post-id} |	GET	| Gets all comments for a post with a given id
+
+<br>
+
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/post-comments | GET	| Gets all comments for a post
+
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/comment-delete/{commnet-id} | DELETE	| Deletes comment with given id
+
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/post-delete/{commnet-id} | DELETE	| Deletes post with given id
+
+<br>
+
+
+
+
+
 
