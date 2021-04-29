@@ -557,7 +557,15 @@ Below listed are all the deliverabeles of the project:
 /sendmail | POST  | Sends mail with required body
 
 
-
+## GATEWAYS
+Service |	EndPoint
+------- | ------- 
+auth-service    | /auth/**
+forum-service | /forum/**
+app-service | /appointment/**
+catalog-service | /catalog/**
+medication-service | /medication/**
+diagnosis-service | /diagnosis/**
 
 
 
