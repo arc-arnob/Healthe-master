@@ -162,7 +162,140 @@ Below listed are all the deliverabeles of the project:
 
 <br>
 
+# Appointment Management API
 
+## Purpose
+* This API will enable user to implement appointment booking, schdule checks and management. It is stand-alone service with independent endpoints.
+* In order to make it work you need implement `Authorization and Authentication API`.
+
+## Endpoints
+
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/patient-register |	POST	| Creates new patient Profile
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "pat_name":"Arnob_123",
+    "pat_phone":"87171691191",
+    "pat_dob":"03-09-1999",
+    "pat_gender":"M",
+    "enrollDate":"09-09-2020",
+    "insured":"Y"
+}
+```
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/patient-update |	PUT	| Updates patient Profile
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "pat_name":"Arnob_123",
+    "pat_phone":"87171691191",
+    "pat_dob":"03-09-1999",
+    "pat_gender":"M",
+    "enrollDate":"09-09-2020",
+    "insured":"Y"
+}
+```
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/patient-app-booking |	POST	| Updates patient Profile
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "docId":"testuser5",
+    "appTypeId":1,
+    "startDate":"2021-03-13",
+    "startTime":"6:30:59",
+    "endTime": "7:00:00"
+}
+```
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/doctor-register |	POST	| Creates a new Doctor Profile
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "doc_name":"Arnob chowdhury",
+    "doc_phone":"87171691191",
+    "doc_address":"Valentus, Gaur City mall CR",
+    "dateOfStarting":"1978-09-09",
+    "doc_gender":"M",
+    "doc_dob":"1978-09-09",
+    "doc_settlePoint":"22.2323,45.4433",
+    "doc_description": "Did MBBS and MD from Boston, Heart specialist",
+    "docSpecId": 1,
+    "clinicId": 1
+}
+```
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/doctor-update |	POST	| Updates Doctor Profile
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "doc_name":"Ikala Chuhioq",
+    "doc_phone":"8717123455",
+    "doc_address":"Valentus, Gaur City mall CR",
+    "dateOfStarting":"1978-09-09",
+    "doc_gender":"M",
+    "doc_dob":"1978-09-09",
+    "doc_settlePoint":"22.2323,45.4433",
+    "doc_description": "Did MBBS and MD from Boston, Heart specialist",
+    "docSpecId": 1,
+    "clinicId": 1
+}
+```
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/doctor-update |	POST	| Updates Doctor Profile
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "doc_name":"Ikala Chuhioq",
+    "doc_phone":"12345667890",
+    "doc_address":"Valentus, Gaur City mall CR",
+    "dateOfStarting":"1978-09-09",
+    "doc_gender":"M",
+    "doc_dob":"1978-09-09",
+    "doc_settlePoint":"22.2323,45.4433",
+    "doc_description": "Did MBBS and MD from Boston, Heart specialist",
+    "docSpecId": 1,
+    "clinicId": 1
+}
+```
+<br>
 
 
 
