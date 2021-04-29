@@ -81,9 +81,10 @@ Below listed are all the deliverabeles of the project:
 * In order to make it work you need implement `Authorization and Authentication API`.
 ## Endpoints
 
-EndPoint |	Method |	Description
+*Endpoint* |	*Method* |	*Description*
 -------  | ------- | -----------
 /subreddit-create |	POST	| Creates a new thread
+
 
 **Json Format**
 ```javascript
