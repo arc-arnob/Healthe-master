@@ -80,6 +80,7 @@ Below listed are all the deliverabeles of the project:
 * This API will enable user to implement forum service in any project. It is stand-alone service with independent endpoints.
 * In order to make it work you need implement `Authorization and Authentication API`.
 ### Endpoints
+
 Service |	EndPoint |	Method |	Description
 ------- | -------  | ------- | -----------
 product-service-api | /movies/{urlId} |	GET	| Return list of all movies
