@@ -171,24 +171,8 @@ Below listed are all the deliverabeles of the project:
 *Endpoint* |	*Method* |	*Description*
 -------  | ------- | -----------
 /post-comment/{post-id} |	GET	| Gets all comments for a post with a given id
-
-<br>
-
-
-*Endpoint* |	*Method* |	*Description*
--------  | ------- | -----------
 /post-comments | GET	| Gets all comments for a post
-
-<br>
-
-*Endpoint* |	*Method* |	*Description*
--------  | ------- | -----------
 /comment-delete/{commnet-id} | DELETE	| Deletes comment with given id
-
-<br>
-
-*Endpoint* |	*Method* |	*Description*
--------  | ------- | -----------
 /post-delete/{commnet-id} | DELETE	| Deletes post with given id
 
 <br>
