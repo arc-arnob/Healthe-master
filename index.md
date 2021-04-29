@@ -485,6 +485,79 @@ Below listed are all the deliverabeles of the project:
 </div>
 
 ## Explanation
-* When user logs in using credentials,  it is encrypted and is alwaysattached with the payload while requests are made. It the responsibility of each serviceto decrypt the credentials and verify it against the centrally running authorization andauthentication server and allow only valid calls.
+* When user logs in using credentials, it is encrypted and is always attached with the payload while requests are made. It the responsibility of each service to decrypt the credentials and verify it against the centrally running authorization andauthentication server and allow only valid calls.
+
+## Endpoints
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/api/auth/signup | POST  | Registers a new User and sends email for verification purpose
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "username":"testuserd7",
+    "email":"testuser7@gmail.com",
+    "password":"test789",
+    "role":"DOCTOR"
+}
+```
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/api/auth/accVerfication/{token} | GET | Activates User account by comparing one time token sent on mail
+
+<br>
+
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/api/auth/login | POST  | Returns Encryted Access Token and Expiration.
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "username":"testuser4",
+    "password":"test456"
+}
+```
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/api/auth/logout | POST  | Deletes users security context.
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "username":"testuser4",
+    "password":"test456"
+}
+```
+<br>
+
+# Mailing API
+
+## Purpose
+
+* This API is responsible for dispastching mails to user in case of account activation, diagnosis outcome.
+* It requires `Authorization and Authentication API` to be implemented prior to use.
+
+## Endpoints
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/sendmail | POST  | Sends mail with required body
+
+
+
+
 
 
