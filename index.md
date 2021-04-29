@@ -679,6 +679,7 @@ spring.cloud.loadbalancer.ribbon.enabled = false
 
 
 * **Service Discovery Client**
+
 ```java
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
