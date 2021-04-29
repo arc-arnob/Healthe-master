@@ -323,7 +323,7 @@ Below listed are all the deliverabeles of the project:
 
 *Endpoint* |	*Method* |	*Description*
 -------  | ------- | -----------
-/create | POST	| Creates an appointment to pharamacy stores with user coordinates.
+/create | POST	| Registers a pharamacy stores with given coordinates coordinates.
 
 **Json Format Example**
 ```javascript
