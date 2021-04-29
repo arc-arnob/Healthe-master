@@ -344,10 +344,10 @@ Below listed are all the deliverabeles of the project:
 
 <br>
 
-# Diagnosis API
+# Medication API
 
 ## Purpose
-* This API will enable user to call Django Server running Machine Learning Models to performs diagnosis on the input reading. It is stand-alone service with independent endpoints.
+* This API will enable user to implement medication management for better pateint to store experience.
 * It requires `Authorization and Authentication API` to be implemented prior to use.
 
 ## Endpoints
