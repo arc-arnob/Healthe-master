@@ -708,4 +708,37 @@ eureka.client.service-url.default-zone=http://localhost:8761/eureka/
 eureka.instance.hostname=localhost
 ```
 
+## Load Balancing
+* In simple terms Load Balancer distributes the incoming traffic to multiple instancesof the service and works in conjunction to scaling process.
+* Algorithm for load balancing: Round Robin
+* Type of Load balancing: Hybrid Load Balancing
+* In hybrid load balancing technique used in this project all the consumers and prosumers (one that produces result as well as requires input ) are implemented with theirown load balancer 
+* 
+
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/hybrid_lb_1.png" class="img-responsive" alt=""> 
+</div>
+
+### Implementation Example
+
+```java
+
+@GetMapping("/get-stores") //hystrix
+@HystrixCommand(fallbackMethod = "getNearByFB")
+public Object getNearBy(@RequestHeader(value = "Authorization") String token){
+	HttpHeaders headers = new HttpHeaders();
+	headers.setContentType(MediaType.APPLICATION_JSON);
+	headers.set("Authorization", token);
+	HttpEntity<String> entity = new HttpEntity<String>(headers);
+	
+	String uri = loadBalancer.choose("medication-service").getServiceId();
+	
+	String url = "http://"+uri.toString() + "/medication/nearByStore";
+	ResponseEntity<Object> responseEntity = restTemplate.exchange(url,HttpMethod.GET,entity, Object.class);
+	Object res  = responseEntity.getBody();
+	return res;
+ }
+
+```
+
 
