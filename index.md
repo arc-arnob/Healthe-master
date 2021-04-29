@@ -135,6 +135,11 @@ Below listed are all the deliverabeles of the project:
 /post-thread/{thread-id} |	GET	| Gets all posts under the thread with given id 
 /thread-list |	GET	| Gets all threads 
 /thread/{thread-id} |	GET	| Gets threads information with given id 
+
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
 /vote |	POST	| Creates a UPVOTE or DOWNVOTE for a post
 
 <br>
