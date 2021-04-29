@@ -297,6 +297,18 @@ Below listed are all the deliverabeles of the project:
 ```
 <br>
 
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/patient-profile |	GET	| Returns Patient Profile
+/patient-get-booking |	GET	| Returns Patient Booking information
+/doctor-delete |	DELETE	| Deletes doctor's profile
+/doctor-schedule |	GET	| Returns Doctor schedule to avoid overlapping 
+
+
+
+
+
+<br>
 
 
 
