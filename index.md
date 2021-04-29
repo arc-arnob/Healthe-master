@@ -25,17 +25,50 @@ Below listed are all the deliverabeles of the project:
 
 ## Layered Architecture
 <div>
-    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/architecturediav3.png" class="img-responsive" alt="" height = 600px width = 650px> 
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/architecturediav3.png" class="img-responsive" alt="" height = 600px width = 700px> 
 </div>
 
 1. As depicted in above figure the architecture is divided into 3 sections each having its own set of responsibilities :
 
-    - API Service layer : responsible for performing authorization and load balancing for next level of processes.
-    - Composite Layer : responsible for performing abstraction and acts as a single point of contact for the external requests. It also manages circuit breaking process to     increase fault tolerance
-    - Core Layer: consists of core services supported by the system which includes managing cache, database and business logic.
+    - `API Service layer` : responsible for performing authorization and load balancing for next level of processes.
+    - `Composite Layer` : responsible for performing abstraction and acts as a single point of contact for the external requests. It also manages circuit breaking process to     increase fault tolerance
+    - `Core Layer`: consists of core services supported by the system which includes managing cache, database and business logic.
 
 ## Infrasturture
 <div>
-    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/tools.png" class="img-responsive" alt="" height = 600px width = 650px> 
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/tools.png" class="img-responsive" alt="" height = 600px width = 700px> 
 </div>
 
+## Database Configuration
+The Schema configuration is simulated as per the following diagram below :
+
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/ER%20Diagram%20(1).png" class="img-responsive" alt="" height = 600px width = 1000px> 
+</div>
+
+Note : Word `Simulated` is used since basic SQL constraints are not possible on database per service architecture.
+
+## Context Diagram 
+
+Below is Context Diagram for better understanding of the overall working of the system,
+
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/dfd_2.png" class="img-responsive" alt="" height = 1000px width = 1000px> 
+</div>
+
+## Brief about actual database configuration
+
+ * Reasons why traditional database cannot be used in Microservice architecture:
+
+    - Services must be loosely coupled so that they can be developed, deployed and scaled independently
+    - Some business transactions spans multiple services. For example, every service uses User Service for security purpose
+    - Some business transactions need to query data that is owned by multiple services.
+    - Databases must sometimes be replicated in order to scale.
+    - Different services have different data storage requirements. For some services, a relational database is the best choice and for some No Sql.
+
+* Solution to above problems
+
+    - Keep each microservice’s persistent data private to that service and accessible only via its API.
+    - The service’s database is effectively part of the implementation of that service. It cannot be accessed directly by other services.
+    - Database-server-per-service – each service has it’s own database server.
+    - Helps ensure that the services are loosely coupled. Changes to one service’s database does not impact any other services.
