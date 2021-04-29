@@ -325,6 +325,8 @@ Below listed are all the deliverabeles of the project:
 -------  | ------- | -----------
 /create | POST	| Registers a pharamacy stores with given coordinates coordinates.
 
+<br>
+
 **Json Format Example**
 ```javascript
 {
@@ -341,4 +343,82 @@ Below listed are all the deliverabeles of the project:
 ```
 
 <br>
+
+# Diagnosis API
+
+## Purpose
+* This API will enable user to call Django Server running Machine Learning Models to performs diagnosis on the input reading. It is stand-alone service with independent endpoints.
+* It requires `Authorization and Authentication API` to be implemented prior to use.
+
+## Endpoints
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/diabetes-diagnosis | POST	| Sends reading for ML model to process and returns the outcome
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "glucose":140.0,
+    "insulin":0.0,
+    "bmi":23.3,
+    "age":50
+}
+```
+
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/stroke-diagnosis | POST	| Sends reading for ML model to process and returns the outcome
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "gender":1,
+    "ever_married":1,
+    "work_type":2,
+    "residence_type":1,
+    "smoking_status":1,
+    "age":67, 
+    "hypertension":0,
+    "heart_disease":1, 
+    "avg_glucose_level":229, 
+    "bmi":37
+}
+```
+
+<br>
+
+*Endpoint* |	*Method* |	*Description*
+-------  | ------- | -----------
+/heart-diagnosis | POST	| Sends reading for ML model to process and returns the outcome
+
+<br>
+
+**Json Format Example**
+```javascript
+{
+    "age":63,
+    "sex":1,
+    "cp":3,  
+    "trestbps":145,  
+    "chol":233, 
+    "fbs":1,  
+    "restecg":0,  
+    "thalach":150,  
+    "exang": 0, 
+    "oldpeak":2, 
+    "slope": 0,
+    "ca":0,
+    "thal":1
+}
+```
+
+<br>
+
 
