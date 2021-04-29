@@ -585,17 +585,16 @@ diagnosis-service | /diagnosis/**
 ### Purpose
 * Services sometimes collaborate when handling requests. When one service synchronously invokes another there is always the possibility that the other service is unavailable or is exhibiting such high latency it is essentially unusable. Precious resources such as threads might be consumed in the caller while waiting for the other service to respond. This might lead to resource exhaustion, which would make the calling service unable to handle other requests. The failure of one service can potentially cascade to other services throughout the application.
 * How to prevent a network or service failure from cascading to other services?
-
-<div class="row">
-  <div class="column">
-    <img src="img_snow.jpg" alt="Snow" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="img_forest.jpg" alt="Forest" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="img_mountains.jpg" alt="Mountains" style="width:100%">
-  </div>
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/fault_tol_1.png" class="img-responsive" alt=""> 
 </div>
-
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/fault_tol_2.png" class="img-responsive" alt=""> 
+</div>
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/fault_tol_3.png" class="img-responsive" alt=""> 
+</div>
+<div>
+    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/fault_tol_4.png" class="img-responsive" alt=""> 
+</div>
 # Explanation
