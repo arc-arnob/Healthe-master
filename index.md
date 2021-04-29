@@ -43,7 +43,7 @@ Below listed are all the deliverabeles of the project:
 The Schema configuration is simulated as per the following diagram below :
 
 <div>
-    <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/ER%20Diagram%20(1).png" class="img-responsive" alt="" > 
+    <img href="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/ER%20Diagram%20(1).png" src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/ER%20Diagram%20(1).png" class="img-responsive" alt="" > 
 </div>
 
 Note : Word `Simulated` is used since basic SQL constraints are not possible on database per service architecture.
