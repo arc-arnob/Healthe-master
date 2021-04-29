@@ -568,5 +568,14 @@ catalog-service | /catalog/**
 medication-service | /medication/**
 diagnosis-service | /diagnosis/**
 
+* URI for gateway : http://localhost:8085
+* URI for Authorization API : http://localhost:8082
+* URI for Mailing API : http://localhost:8089
+* URI for Forum-API : http://localhost:8081
+* URI for Appointement Management API : http://localhost:8084
+* URI for Store Locator API : http://localhost:8086
+* URI for Medication API : http://localhost:8083
+* URI for Diagnosis API : http://localhost:8088
+* URI for TOM TOM (Third party) API : http://localhost:8087
 
 
