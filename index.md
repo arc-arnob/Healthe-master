@@ -760,6 +760,7 @@ You will build a web application that is Oauth2 enabled.
 
 ## Configuring Database
 * File Location : `backend/support/jwt-auth-service/jwt_auth_service/src/main/resources/application.properties`
+
 ```sql
 
 spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
