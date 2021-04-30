@@ -20,12 +20,13 @@ Being a web application, it is highly dynamic and it needs to be scalable with m
 	- [Authentication and Authorization API](#authentication-and-authorization-api)
 	- [Mailing API](#mailing-api)
 8. [Microservice Tenents](#microservice-tenents)
-	- [Circuit Breaker (Fault Tolerance)](#circuit-breaker(fault-tolerance))
+	- [Circuit Breaker (Fault Tolerance)](#circuit-breaker)
 	- [Service Registry and Discovery](#service-registry-and-discovery)
 	- [Load Balancing](#load-balancing)
 9. [Run Code on PC](#run-on-your-pc-without-docker)
 
 <br>
+
 ## Layered Architecture
 
 <div>
@@ -369,6 +370,7 @@ Below listed are all the deliverabeles of the project:
 ```
 
 <br>
+
 # Diagnosis API
 
 ## Purpose
@@ -606,7 +608,7 @@ diagnosis-service | /diagnosis/**
 
 # Microservice Tenents
 
-## Circuit Breaker (Fault Tolerance)
+## Circuit Breaker
 
 ### Purpose
 * Services sometimes collaborate when handling requests. When one service synchronously invokes another there is always the possibility that the other service is unavailable or is exhibiting such high latency it is essentially unusable. Precious resources such as threads might be consumed in the caller while waiting for the other service to respond. This might lead to resource exhaustion, which would make the calling service unable to handle other requests. The failure of one service can potentially cascade to other services throughout the application.
