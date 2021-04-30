@@ -19,11 +19,12 @@ Being a web application, it is highly dynamic and it needs to be scalable with m
 	- [Medication API](#medication-api)
 	- [Authentication and Authorization API](#authentication-and-authorization-api)
 	- [Mailing API](#mailing-api)
-8. [Microservice Tenents](#microservice-tenents)
+8. [Gateways](#gateways)
+9. [Microservice Tenents](#microservice-tenents)
 	- [Circuit Breaker (Fault Tolerance)](#circuit-breaker)
 	- [Service Registry and Discovery](#service-registry-and-discovery)
 	- [Load Balancing](#load-balancing)
-9. [Run Code on PC](#run-on-your-pc-without-docker)
+10. [Run Code on PC](#run-on-your-pc-without-docker)
 
 <br>
 
