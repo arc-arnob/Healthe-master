@@ -1,7 +1,33 @@
 # DESIGNING A ROBUST AND SCALABLE HEALTH ANALYSIS/MANAGEMENT API WITH MICRO-SERVICE ARCHITECTURE
 Being a web application, it is highly dynamic and it needs to be scalable with minimum efforts put to integrate it in the existing environment. Hence in this scenario building a large scale web based distributed system, micro-services architecture emerged in recent years. Through this project I wish share my early experience with micro-service architecture to design a scalable Health Analysis/Management platform with recent industry recently developed and most used services for load balancing, monitoring, API proxy,security, etc. and compare the benefits and challenges of distributed systems with traditional monolith architectures.
-[Run Code on PC](#run-on-your-pc-without-docker)
+
+<br>
+
+# Index
+
+1. [Run Code on PC](#run-on-your-pc-without-docker)
+2. [Layered Architecture](#layered-architecture)
+3. [Infrastructure](#infrastructure)
+4. [Database Configuration](#database-configuration)
+5. [Context Diagram](#context-diagram)
+6. [Actual Database Configuration Theory](#brief-about-actual-database-configuration)
+7. [Deliverables](#deliverables)
+	- [Forum API](#forum-api)
+	- [Appointment Management API](#appointment-management-api)
+	- [Store Locator API](#store-locator-api)
+	- [Diagnosis API](#diagnosis-api)
+	- [Medication API](#medication-api)
+	- [Authentication and Authorization API](#authentication-and-authorization-api)
+	- [Mailing API](#mailing-api)
+8. [Microservice Tenents](#microservice-tenents)
+	- [Circuit Breaker (Fault Tolerance)](#circuit-breaker(fault-tolerance))
+	- [Service Registry and Discovery](#service-registry-and-discovery)
+	- [Load Balancing](#load-balancing)
+9. [Run Code on PC](#run-on-your-pc-without-docker)
+
+<br>
 ## Layered Architecture
+
 <div>
     <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/architecturediav3.png" class="img-responsive" alt="" height = 600px width = 700px> 
 </div>
@@ -12,7 +38,7 @@ Being a web application, it is highly dynamic and it needs to be scalable with m
     - `Composite Layer` : responsible for performing abstraction and acts as a single point of contact for the external requests. It also manages circuit breaking process to     increase fault tolerance
     - `Core Layer`: consists of core services supported by the system which includes managing cache, database and business logic.
 
-## Infrasturture
+## Infrastructure
 <div>
     <img src="https://raw.githubusercontent.com/arc-arnob/Healthe-master/main/images/tools.png" class="img-responsive" alt="" height = 600px width = 700px> 
 </div>
@@ -741,6 +767,13 @@ public Object getNearBy(@RequestHeader(value = "Authorization") String token){
 
 ```
 
+# Used Netflix OSS:
+* Netflix Eureka is used for discovery service.
+* Netflix Ribbon is used for client side load-balancing.
+* Netflix Zuul is used for gateway.
+
+
+
 # Run on your PC without Docker
 
 `NOTE` : You need to configure your own jks files for communication level security in application.properties file whereever needed.
@@ -798,12 +831,12 @@ spring.jpa.show-sql=true
 ```sql
 spring.user.jpa.database-platform=org.hibernate.dialect
 .MySQL8Dialect
-spring.user.datasource.jdbcUrl= jdbc:mysql://localhost:3306/user-db
-spring.user.datasource.username = root
+spring.user.datasource.jdbcUrl= jdbc:mysql://localhost:3306/<your database>
+spring.user.datasource.username = <username>
 spring.user.datasource.password = <password>
 spring.user.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
 spring.app.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
-spring.app.datasource.jdbcUrl=jdbc:mysql://localhost:3306/diagnosis-service
+spring.app.datasource.jdbcUrl=jdbc:mysql://localhost:3306/<your database>
 spring.app.datasource.username = <username>
 spring.app.datasource.password = <password>
 spring.app.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
@@ -821,17 +854,15 @@ spring.jpa.show-sql=true
 ```sql
 spring.data.mongodb.host=localhost
 spring.data.mongodb.port=27017
-spring.data.mongodb.database=Medication
+spring.data.mongodb.database=<your database>
 spring.data.mongodb.repositories.enabled=true
-# mongod --dbpath "F:\workspace\VS workspaces\Healthe\backend\support\
-Mongo_data\med\data\db"
+# mongod --dbpath "<path to your db>"
 
 spring.user.jpa.database-platform=org.hibernate
 .dialect.MySQL8Dialect
-spring.user.datasource.jdbcUrl =jdbc:mysql://
-localhost:3306/user-db
-spring.user.datasource.username = root
-spring.user.datasource.password = root123
+spring.user.datasource.jdbcUrl =jdbc:mysql://localhost:3306/<your database>
+spring.user.datasource.username = <username>
+spring.user.datasource.password = <password>
 spring.user.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
 
 spring.jpa.generate-ddl=true
@@ -847,17 +878,14 @@ spring.jpa.show-sql=true
 
 ```sql
 spring.user.jpa.database-platform=org.hibernate.dialect
-.MySQL8Dialectspring.user.datasource.jdbcUrl=
-jdbc:mysql://localhost:3306/reddit-clone
-spring.user.datasource.username = root
+.MySQL8Dialectspring.user.datasource.jdbcUrl=jdbc:mysql://localhost:3306/<your database>
+spring.user.datasource.username = <username>
 spring.user.datasource.password = <password>
-spring.user.datasource.driver-class-name = 
-com.mysql.cj.jdbc.Driver
+spring.user.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
 
 spring.app.jpa.database-platform=org.hibernate.dialect
-.MySQL8Dialectspring.app.datasource.jdbcUrl=
-jdbc:mysql://localhost:3306/appointment-service
-spring.app.datasource.username = root
+.MySQL8Dialectspring.app.datasource.jdbcUrl=jdbc:mysql://localhost:3306/<your database>
+spring.app.datasource.username = <username>
 spring.app.datasource.password = <password>
 spring.app.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
 spring.jpa.generate-ddl=true
@@ -872,6 +900,6 @@ spring.jpa.show-sql=true
 ```sql
 spring.data.mongodb.host=localhost
 spring.data.mongodb.port=27017
-spring.data.mongodb.database=bookings
+spring.data.mongodb.database=<your database>
 spring.data.mongodb.repositories.enabled=true
 ```
