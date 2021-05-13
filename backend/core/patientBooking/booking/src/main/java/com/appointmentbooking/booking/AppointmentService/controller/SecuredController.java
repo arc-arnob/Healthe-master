@@ -4,6 +4,9 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import com.appointmentbooking.booking.AppointmentService.config.Config;
 import com.appointmentbooking.booking.AppointmentService.dto.AppointmentRegitrationDto;
 import com.appointmentbooking.booking.AppointmentService.dto.DoctorRegistrationDto;
 import com.appointmentbooking.booking.AppointmentService.dto.PatientRegistrationDto;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +33,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 
 @RestController
@@ -49,6 +55,21 @@ public class SecuredController {
     @Autowired
     RestTemplate restTemplate;
 
+    
+    
+    @RabbitListener(queues = Config.QUEUE)
+    public void consumeMessageFromQueue(PatientRegistrationDto patientDto){
+        PatientRegistrationDto patientrecord = patientDto;
+
+        //System.out.println("Message recieved from queue : " + patientrecord);
+         System.out.println("Ok Im passing it");
+         System.out.println(patientDto);
+
+        // String status = patientService.save(patientrecord);
+        // System.out.println("Status: " + status);
+    }
+   
+
     @GetMapping("/")
     public String testing(){
         return "Yes Working";
@@ -60,7 +81,6 @@ public class SecuredController {
     public String savePatient(@RequestBody PatientRegistrationDto patientDto) {
         
         System.out.println("Here inside patient/register");
-
         String status = patientService.save(patientDto);
         return status;
     }

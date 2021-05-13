@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
+import org.springframework.amqp.core.MessagePostProcessor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.catalog.catalogservice.catalog.Config;
 import com.catalog.catalogservice.model.*;
 
 @RestController
@@ -36,13 +40,15 @@ public class CatalogController {
 
     @Autowired
     RestTemplate restTemplate;
+    
+    @Autowired
+    private RabbitTemplate template;
 
     // Perform Load Balancing here.
     @Autowired
     LoadBalancerClient loadBalancer;
 
     private CacheManager cacheManager;
-
 
 
     // Patient Controllers
@@ -74,12 +80,12 @@ public class CatalogController {
     }
 
     @PostMapping("/patient-register")
-    @HystrixCommand(fallbackMethod = "registerPatientFB")
-    public String registerPatient(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
+    @HystrixCommand(fallbackMethod = "registerPatientFB") //9may String -> Object
+    public String registerPatient(@RequestBody Object dto, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", token);
-        HttpEntity<String> entity = new HttpEntity<String>(dto, headers);
+        HttpEntity<Object> entity = new HttpEntity<Object>(dto, headers);
 
         String uri = loadBalancer.choose("app-service").getServiceId();
         String url = "http://"+uri.toString() + "/patient/register";
@@ -465,7 +471,7 @@ public class CatalogController {
     
     //cache evict
     @DeleteMapping("/handover-medicine/{patId}") //hystrix
-    @HystrixCommand(fallbackMethod = "getMedicFB")
+    @HystrixCommand(fallbackMethod = "handOverMedicineFB")
     public Object handOverMedicine(@PathVariable String patId, @RequestHeader(value = "Authorization") String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -601,9 +607,13 @@ public class CatalogController {
         
         return "Sorry Something is wrong, cant get your info!";
     }
+    //String -> Object changed
+    public String registerPatientFB(@RequestBody Object dto, @RequestHeader(value = "Authorization") String token){
+        //return "Cannot Register you right now! Try again some time";
 
-    public String registerPatientFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
-        return "Cannot Register you right now! Try again some time";
+        template.convertAndSend(Config.EXCHANGE, Config.ROUTING_KEY, dto);
+
+        return "Your Request is being processed. You may leave the page";
     }
 
     public String patientAppointmentBookingFB(@RequestBody String dto, @RequestHeader(value = "Authorization") String token){
@@ -707,6 +717,10 @@ public class CatalogController {
     }
     public Object getNearByFB(@RequestHeader(value = "Authorization") String token){
         return "Oops, Cannot search for nearby stores";
+    }
+
+    public Object handOverMedicineFB(@PathVariable String patId, @RequestHeader(value = "Authorization") String token){
+        return "Oops, Cannot fetch record";
     }
 
      
